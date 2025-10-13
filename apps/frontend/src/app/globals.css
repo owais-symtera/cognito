@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+}
+
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+}
+
+/* Pharmaceutical compliance styling */
+.pharma-compliant {
+  @apply border-l-4 border-blue-500 bg-blue-50 p-4;
+}
+
+.audit-trail {
+  @apply text-xs text-gray-500 font-mono;
+}
+
+/* Source tracking indicators */
+.source-verified {
+  @apply border-l-2 border-green-400;
+}
+
+.source-conflicted {
+  @apply border-l-2 border-yellow-400;
+}
+
+.source-disputed {
+  @apply border-l-2 border-red-400;
+}

@@ -1,0 +1,182 @@
+{
+  "openai": {
+    "name": "OpenAI ChatGPT",
+    "enabled": false,
+    "model": "gpt-5",
+    "api_key": "your-openai-api-key-here",
+    "supports_temperature": false,
+    "features": [
+      "text-generation",
+      "embeddings",
+      "analysis"
+    ],
+    "summary_enabled": true,
+    "summary_default_model": "gpt-4o",
+    "summary_temperature": 0.7,
+    "summary_max_tokens": 2000,
+    "temperatures": [
+      {
+        "id": "b5daea11-f2d1-4931-aedb-8d40649ca00e",
+        "value": 0.9,
+        "label": "Comprehensive (0.9)",
+        "enabled": false
+      }
+    ],
+    "lastUpdated": "2025-10-13T15:30:23.816067"
+  },
+  "claude": {
+    "name": "Anthropic Claude",
+    "enabled": false,
+    "model": "claude-3-opus",
+    "api_key": "",
+    "supports_temperature": true,
+    "features": [
+      "text-generation",
+      "analysis",
+      "reasoning"
+    ],
+    "summary_enabled": true,
+    "summary_default_model": "claude-3-opus",
+    "summary_temperature": 0.7,
+    "summary_max_tokens": 2000,
+    "temperatures": [
+      {
+        "id": "creative",
+        "value": 0.9,
+        "enabled": true,
+        "label": "Creative (0.9)"
+      },
+      {
+        "id": "balanced",
+        "value": 0.7,
+        "enabled": true,
+        "label": "Balanced (0.7)"
+      }
+    ],
+    "lastUpdated": "2025-10-01T02:14:11.644875"
+  },
+  "gemini": {
+    "name": "Google Gemini",
+    "enabled": false,
+    "model": "gemini-pro",
+    "api_key": "",
+    "supports_temperature": true,
+    "features": [
+      "text-generation",
+      "multimodal",
+      "analysis"
+    ],
+    "summary_enabled": true,
+    "summary_default_model": "gemini-pro",
+    "summary_temperature": 0.8,
+    "summary_max_tokens": 2000,
+    "temperatures": [
+      {
+        "id": "creative",
+        "value": 0.8,
+        "enabled": true,
+        "label": "Creative (0.8)"
+      },
+      {
+        "id": "balanced",
+        "value": 0.6,
+        "enabled": true,
+        "label": "Balanced (0.6)"
+      }
+    ],
+    "lastUpdated": "2025-10-01T02:14:14.714660"
+  },
+  "grok": {
+    "name": "X.AI Grok",
+    "enabled": false,
+    "model": "grok-1",
+    "api_key": "",
+    "supports_temperature": true,
+    "features": [
+      "real-time-data",
+      "reasoning",
+      "analysis"
+    ],
+    "summary_enabled": false,
+    "summary_default_model": "grok-1",
+    "summary_temperature": 0.7,
+    "summary_max_tokens": 2000,
+    "temperatures": [
+      {
+        "id": "creative",
+        "value": 0.85,
+        "enabled": false,
+        "label": "Creative (0.85)"
+      },
+      {
+        "id": "balanced",
+        "value": 0.65,
+        "enabled": true,
+        "label": "Balanced (0.65)"
+      }
+    ],
+    "lastUpdated": "2025-10-03T02:07:38.072568"
+  },
+  "perplexity": {
+    "name": "Perplexity",
+    "enabled": true,
+    "model": "sonar",
+    "api_key": "your-perplexity-api-key-here",
+    "supports_temperature": true,
+    "features": [
+      "web-search",
+      "citation",
+      "real-time"
+    ],
+    "summary_enabled": true,
+    "summary_default_model": "sonar",
+    "summary_temperature": 0.7,
+    "summary_max_tokens": 2000,
+    "temperatures": [
+      {
+        "id": "51b51b6b-be77-4345-b871-077786768c2a",
+        "value": 0.9,
+        "label": "Comprehensive (0.9)",
+        "enabled": true
+      },
+      {
+        "id": "c906141b-358d-4bcc-b79c-3d2ff442fe23",
+        "value": 0.5,
+        "label": "Focused (0.5)",
+        "enabled": false
+      },
+      {
+        "id": "0d28bd7f-770f-454f-bb5d-5e7ece9feec3",
+        "value": 0.1,
+        "label": "Factual (0.1)",
+        "enabled": false
+      }
+    ],
+    "lastUpdated": "2025-10-13T16:30:19.141983"
+  },
+  "tavily": {
+    "name": "Tavily Search",
+    "enabled": false,
+    "model": "tavily-search",
+    "api_key": "your-tavily-api-key-here",
+    "supports_temperature": false,
+    "features": [
+      "deep-search",
+      "pharmaceutical-focus",
+      "citations"
+    ],
+    "summary_enabled": false,
+    "summary_default_model": "tavily-search",
+    "summary_temperature": 0.7,
+    "summary_max_tokens": 2000,
+    "temperatures": [
+      {
+        "id": "comprehensive",
+        "value": 0.7,
+        "enabled": true,
+        "label": "Comprehensive (0.7)"
+      }
+    ],
+    "lastUpdated": "2025-10-01T02:13:53.010200"
+  }
+}

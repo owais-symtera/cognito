@@ -1,0 +1,108 @@
+API PROVIDER TEST RESULTS
+Timestamp: 2025-09-30T12:06:07.690481
+Drug: apixaban
+================================================================================
+
+
+OpenAI ChatGPT (openai)
+Model: gpt-4o
+----------------------------------------
+
+Temperature: Creative (0.9)
+Status: success
+Response (2383 chars):
+As of my last update, the most recent comprehensive market data for apixaban might not be available for 2024-2025 specifically. However, I can provide an analysis based on previous trends and the competitive landscape known up to 2023. Please be aware that market share figures are often estimates and can vary based on the source. Typically, apixaban is marketed under the brand name Eliquis by Bristol Myers Squibb and Pfizer, and its main competitors include other direct oral anticoagulants (DOACs) and emerging generics.
+
+Here's a potential competitive landscape table populating these sections with known and predictive insights based on historical trends:
+
+| Competitor                    | Brand       | Dosage Form | Market Share (%) |
+|-------------------------------|-------------|-------------|------------------|
+| Bristol Myers Squibb/Pfizer   | Eliquis     | Oral        | ~40-45%          |
+| Johnson & Johnson/Bayer       | Xarelto     | Oral        | ~30-35%          |
+| Boehringer Ingelheim          | Pradaxa     | Oral        | ~10-15%          |
+| Daiichi Sankyo                | Savaysa/Lixiana | Oral   | ~5-10%           |
+| Major Generic Manufacturers   | -           | Oral        | ~5-10%           |
+
+### Additional Notes:
+1. **Eliquis**: It is one of the leading DOACs globally and enjoys strong market leadership due to its favorable safety and efficacy profile.
+   
+2. **Xarelto and Pradaxa**: These brands continue to hold significant portions of the market, but Eliquis has been more aggressively capturing market share over the years.
+
+3. **Savaysa/Lixiana**: While less dominant, they still maintain a niche presence in certain markets.
+
+4. **Generics**: The introduction of generic apixaban is expected to slightly alter market dynamics, but branded Eliquis tends to maintain its market strength due to brand trust and established safety records.
+
+### Market Data Sources:
+- IMS Health (IQVIA) reports
+- Financial reports from major pharmaceutical companies
+- Ma
+... (truncated)
+
+Temperature: Focused (0.5)
+Status: success
+Response (2555 chars):
+As of my last update in October 2023, I do not have access to specific market share data for apixaban in 2024-2025. However, I can provide an overview of the competitive landscape based on historical data and trends. Apixaban, marketed under the brand name Eliquis, is a leading anticoagulant. Here is a general outline of the competitive landscape, focusing on North American and European companies:
+
+| Competitor                | Brand        | Dosage Form    | Market Share (%) |
+|---------------------------|--------------|----------------|------------------|
+| Bristol-Myers Squibb/Pfizer | Eliquis      | Oral tablet    | ~60% (2023 data) |
+| Bayer/Johnson & Johnson   | Xarelto      | Oral tablet    | ~30% (2023 data) |
+| Boehringer Ingelheim      | Pradaxa      | Oral capsule   | ~10% (2023 data) |
+| Generics (e.g., Teva, Sandoz) | Various     | Oral tablet    | <5% (2023 data)  |
+
+### Notes:
+1. **Bristol-Myers Squibb/Pfizer (Eliquis)**: Eliquis has been the market leader due to its favorable safety and efficacy profile. Its market share has been substantial, around 60% in 2023, and it is expected to maintain a strong position in 2024-2025, although specific percentages may vary.
+
+2. **Bayer/Johnson & Johnson (Xarelto)**: Xarelto is another major player in the anticoagulant market. It had a market share of approximately 30% in 2023. The market dynamics between Xarelto and Eliquis often depend on new clinical data, pricing strategies, and regional preferences.
+
+3. **Boehringer Ingelheim (Pradaxa)**: Pradaxa, while still relevant, has a smaller market share compared to Eliquis and Xarelto, around 10% in 2023. Its position may remain stable unless significant new data or competitive pricing changes occur.
+
+4. **Generics**: Generic versions of apixaban and other anticoagulants have started to enter the market, but their impact has been limited by patent protections and brand loyalty. As of 2023, generics held less than 5% of the market share, but this could increase as m
+... (truncated)
+
+================================================================================
+
+Perplexity (perplexity)
+Model: sonar
+----------------------------------------
+
+Temperature: Factual (0.3)
+Status: success
+Response (2559 chars):
+| Competitor               | Brand    | Dosage Form       | Market Share (%)        |
+|-------------------------|----------|-------------------|------------------------|
+| Bristol-Myers Squibb / Pfizer | Eliquis  | Oral tablets      | ~32.56% in North America (2024); ~34.1% in North America (2024 estimate) |
+| Generic manufacturers (various, post-patent expiry) | Generic Apixaban | Oral tablets      | Growing share post-2024 due to patent expiry; specific % not publicly detailed but significant price erosion expected post-2025 |
+| Other branded/generic competitors | -        | -                 | No major branded competitors for apixaban; market dominated by Eliquis and generics |
+
+**Details:**
+
+- **Eliquis (apixaban)**, marketed by Bristol-Myers Squibb and Pfizer, is the dominant branded product in North America and Europe. It held approximately **32.56% of the global apixaban market share in North America in 2024** and is the leading anticoagulant in this segment[4][6]. North America is the largest regional market, driven by advanced healthcare infrastructure and high cardiovascular disease prevalence[1][2].
+
+- The **European market** also has strong uptake of Eliquis, supported by favorable reimbursement policies and high awareness, though exact market share percentages specific to Europe are not explicitly detailed in the sources. Europe is the second-largest market after North America[1][2].
+
+- **Generic apixaban** is increasingly entering the market due to patent expirations expected around 2024-2025, leading to growing generic market share and price erosion of branded Eliquis[4]. However, precise market share percentages for generics in North America and Europe for 2024-2025 are not publicly available but are expected to increase significantly post-2024.
+
+- No other major branded competitors for apixaban exist; the market is largely a duopoly of **Eliquis (branded)** and **generic apixaban** products.
+
+**Summary:**
+
+| Competitor               | Brand    | Dos
+... (truncated)
+
+================================================================================
+
+Tavily Search (tavily)
+Model: tavily-search
+----------------------------------------
+
+Temperature: Comprehensive (0.7)
+Status: success
+Response (454 chars):
+Analysis: In 2024-2025, apixaban's main competitors in North America and Europe are rivaroxaban and edoxaban, with market shares of approximately 30% and 25% respectively. Apixaban holds around 45% market share in this region.
+
+Sources:
+1. WHO Expert Committee on Specifications for Pharmaceutical ...: The World Health Organization (WHO) was established in 1948 as a specialized agency of the United Nations serving as the directing and coordinating...
+
+
+================================================================================

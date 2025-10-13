@@ -1,0 +1,79 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Python
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+.turbo/
+out/
+.next/
+.nuxt/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editors
+.cursor/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+.nyc_output/
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.temp
+nul
+
+# Project specific
+.bmad-core/
+apps-all.zip
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Backend
+apps/backend/venv/
+apps/backend/__pycache__
+apps/backend/logs/
+apps/backend/scripts/
+apps/backend/provider_config.json
+
+# frontend
+apps/frontend/node_modules/
+apps/frontend/.next/

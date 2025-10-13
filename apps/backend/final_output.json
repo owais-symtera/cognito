@@ -1,0 +1,845 @@
+{
+  "request_id": "0dc6e877-676a-4eeb-9791-22c474d10299",
+  "webhookType": "drug",
+  "structured_data": {
+    "clinical_trials": {
+      "safety": [
+        {
+          "severity": "Not available",
+          "frequency": "Not available",
+          "adverse_event": "Major bleeding"
+        }
+      ],
+      "trials": [
+        {
+          "phase": "Phase 3",
+          "status": "Completed",
+          "trial_id": "NCT00412984",
+          "indication": "Non-valvular AF",
+          "participants": "Not available"
+        },
+        {
+          "phase": "Phase 3",
+          "status": "Completed",
+          "trial_id": "NCT00643201",
+          "indication": "Acute VTE (DVT/PE)",
+          "participants": "Not available"
+        },
+        {
+          "phase": "Phase 3",
+          "status": "Completed",
+          "trial_id": "NCT00414677",
+          "indication": "Extended VTE prophylaxis in medically ill patients",
+          "participants": "Not available"
+        },
+        {
+          "phase": "Phase 3",
+          "status": "Not available",
+          "trial_id": "Not available",
+          "indication": "Cancer-associated thrombosis",
+          "participants": "Not available"
+        }
+      ],
+      "summary": "Clinical Trials & Safety Profile of Apixaban (Consolidated from Source 1 and Source 2)\n\nOverview:\n- Apixaban is a direct oral anticoagulant (DOAC) and a factor Xa inhibitor. It has a broad clinical development program demonstrating efficacy and safety across atrial fibrillation (AF), venous thromboembolism (VTE), extended VTE prophylaxis, and cancer-associated thrombosis as part of its program scope (per the presented sources).\n\nKey pivotal trials and outcomes:\n- ARISTOTLE (Phase III): NCT00412984; Non-valvular AF. Outcome (Source 2): Apixaban reduced stroke and systemic embolism by 21% vs warfarin and reduced major bleeding risk by 31% relative to warfarin. These results supported its use in AF and informed regulatory approvals (FDA approval for Eliquis in 2012 referenced in Source 1).\n- AMPLIFY (Phase III): NCT00643201; Acute VTE (DVT/PE). Outcome (Source 2): Non-inferior to conventional therapy for VTE; significant reduction in major bleeding with apixaban versus standard therapy.\n- ADOPT (Phase III): NCT00414677; Extended VTE prophylaxis in medically ill patients. Outcome (Source 2): Apixaban did not significantly reduce VTE recurrence and was associated with increased bleeding risk in this medically ill population.\n- CARAVAGGIO (Phase III): NCT identifier not specified in Source 2 excerpt. It is listed among major Phase III trials for cancer-associated thrombosis. Specific numeric outcomes are not provided in the given sources.\n\nSafety and regulatory context:\n- Across AF and VTE indications, apixaban has demonstrated a favorable safety profile relative to comparators like warfarin (in AF) and conventional VTE therapies, with notable reductions in major bleeding in several trials (notably ARISTOTLE). The ADOPT findings highlight bleeding considerations in extended prophylaxis for medically ill patients.\n- Regulatory status: The first major regulatory milestone cited is FDA approval for Eliquis (apixaban) in 2012, supported by the trial results and accompanying press/academic literature cited in Source 1 (ACC summary, NEJM publications).\n\nScope considerations and data gaps:\n- Source 1 emphasizes trial references and regulatory announcements, including ACC and NEJM links, but provides limited numeric trial data beyond citations.\n- Source 2 provides a structured table of trials (ARISTOTLE, AMPLIFY, ADOPT, CARAVAGGIO) with phases, dates, sponsors, outcomes, indications, and registry IDs, though CARAVAGGIO’s numeric outcomes are not provided in the excerpt.\n- Taken together, the program supports apixaban use in AF and VTE with favorable safety in several pivotal trials, and it explicitly acknowledges investigation into cancer-associated thrombosis (CARAVAGGIO).\n\nNotes on conflicts and resolution:\n- Conflict potential: Source 1 does not present a complete numeric Outcomes table for all trials, whereas Source 2 provides explicit numeric outcomes for ARISTOTLE and AMPLIFY and qualitative notes for ADOPT. The primary numeric data from ARISTOTLE and AMPLIFY are retained from Source 2. CARAVAGGIO’s outcomes are not quantified in the provided data.\n- Resolution: Adopt numeric outcomes and trial scope from the more comprehensive Trial Outcomes data (Source 2) while acknowledging Source 1’s references to ARISTOTLE, AMPLIFY, ADOPT, CARAVAGGIO, and FDA approvals.\n\nOverall synthesis:\n- The consolidated evidence indicates that apixaban demonstrates efficacy in reducing stroke/systemic embolism and bleeding risk in AF (ARISTOTLE) and is non-inferior and associated with reduced major bleeding in acute VTE treatment (AMPLIFY). In extended prophylaxis for medically ill patients (ADOPT), there was no significant VTE reduction and increased bleeding. The program also encompasses evaluation in cancer-associated thrombosis (CARAVAGGIO). Regulatory context includes FDA approval in 2012 based on pivotal trial results.\n"
+    },
+    "market_overview": {
+      "current": [
+        {
+          "cagr": "7.5%",
+          "region": "Global",
+          "year_range": "2019-2024",
+          "market_size_usd": "$20.1 billion"
+        },
+        {
+          "cagr": "Not available",
+          "region": "North America",
+          "year_range": "2019-2024",
+          "market_size_usd": "$9.0 billion"
+        },
+        {
+          "cagr": "Not available",
+          "region": "Europe",
+          "year_range": "2019-2024",
+          "market_size_usd": "$5.0 billion"
+        },
+        {
+          "cagr": "Not available",
+          "region": "Asia-Pacific",
+          "year_range": "2019-2024",
+          "market_size_usd": "$4.0 billion"
+        },
+        {
+          "cagr": "Not available",
+          "region": "Latin America",
+          "year_range": "2019-2024",
+          "market_size_usd": "$1.0 billion"
+        },
+        {
+          "cagr": "Not available",
+          "region": "Middle East & Africa",
+          "year_range": "2019-2024",
+          "market_size_usd": "$0.5 billion"
+        }
+      ],
+      "summary": "Market Overview for apixaban (merged from Source 2 with supportive context from Source 1):\n\nGlobal context (2024 baseline): The apixaban market is estimated at approximately $20.1 billion globally in 2024, with a historical compound annual growth rate (CAGR) of about 7.5% from 2019 to 2024. Regional distribution for 2024 shows North America leading at roughly $9.0 billion, followed by Europe at $5.0 billion, Asia-Pacific at $4.0 billion, Latin America at $1.0 billion, and the Middle East & Africa (MEA) at $0.5 billion. The regional data are drawn from Market.us and OpenPR-derived sources cited in the 2025 overview (Source 2).\n\nTen-year forecast (2024–2034/2035 horizon): The outlook projects global market size to reach about $31.5 billion by 2034, with a CAGR of approximately 4.5% over 2024–2034. By 2034, North America is projected to approximately $14.0 billion. Regional growth rates in the forecast show Asia-Pacific around 8.0% CAGR, Europe around 6.5% CAGR, Latin America around 7.0% CAGR, and MEA around 6.0% CAGR, reflecting regional drivers and uptake dynamics. The forecast figures are taken from the 2025 current market overview (Source 2) and are supported by the same underlying market reports cited there. Source 1 provides context via links to market reports (e.g., Grand View Research, industry reports) but does not supply explicit numeric values in the provided excerpt.\n\nConflicts between sources: No numeric conflicts detected. Source 1 offers qualitative references to market reports and URLs but does not present conflicting numeric data with Source 2. Therefore, the merged content relies primarily on Source 2 for quantitative market sizing and growth figures, with Source 1 serving as contextual references.\n\nNotes on data provenance: Source 2 (Perplexity) aggregates figures from Market.us and OpenPR (priority sources noted). Source 1 (OpenAI) lists citations to industry reports (e.g., Grand View Research) but does not provide explicit 2024–2034 numeric values within the excerpt.",
+      "forecast": [
+        {
+          "cagr": "+4.5%",
+          "region": "Global",
+          "year_range": "2024-2034",
+          "market_size_usd": "$31.5 billion"
+        },
+        {
+          "cagr": "Not available",
+          "region": "North America",
+          "year_range": "2024-2034",
+          "market_size_usd": "$14.0 billion"
+        },
+        {
+          "cagr": "+6.5%",
+          "region": "Europe",
+          "year_range": "2024-2034",
+          "market_size_usd": "$7.8 billion"
+        },
+        {
+          "cagr": "+8.0%",
+          "region": "Asia-Pacific",
+          "year_range": "2024-2034",
+          "market_size_usd": "$4.7 billion"
+        },
+        {
+          "cagr": "+7.0%",
+          "region": "Latin America",
+          "year_range": "2024-2034",
+          "market_size_usd": "$1.0 billion"
+        },
+        {
+          "cagr": "+6.0%",
+          "region": "Middle East & Africa",
+          "year_range": "2024-2034",
+          "market_size_usd": "$0.5 billion"
+        }
+      ]
+    },
+    "recommendations": {
+      "data": [
+        {
+          "owner": "R&D",
+          "timeline": "12-18 months",
+          "rationale": "The transdermal and transmucosal scores of 5.3/9 suggest there is room for improvement in the drug's formulation for these delivery methods. Enhancing the drug's effectiveness in these areas could increase its marketability and patient compliance.",
+          "recommendation": "Invest in R&D to improve the formulation of apixaban for transdermal and transmucosal delivery."
+        },
+        {
+          "owner": "Commercial",
+          "timeline": "6-12 months",
+          "rationale": "Expanding into new markets can increase sales and profitability. Market research should be conducted to identify these opportunities.",
+          "recommendation": "Identify and target new markets where anticoagulant therapy is underserved or growing."
+        },
+        {
+          "owner": "Clinical Development",
+          "timeline": "Ongoing",
+          "rationale": "Addressing potential risks early can prevent costly issues later in development and after launch. This could include conducting additional safety trials or developing a comprehensive risk management plan.",
+          "recommendation": "Implement risk mitigation strategies to address potential side effects and safety concerns."
+        },
+        {
+          "owner": "Legal",
+          "timeline": "Ongoing",
+          "rationale": "Strong patent protection will prevent competitors from copying the drug and eroding market share. This may involve filing new patents or extending existing ones.",
+          "recommendation": "Ensure robust patent protection for any new formulations or uses of apixaban."
+        },
+        {
+          "owner": "Clinical Development",
+          "timeline": "18-24 months",
+          "rationale": "Clinical trials are essential for regulatory approval and market acceptance. They can also generate data that can be used in marketing and patent applications.",
+          "recommendation": "Prioritize investment in clinical trials to demonstrate the effectiveness and safety of apixaban."
+        }
+      ],
+      "summary": "Focus on improving the formulation of apixaban for transdermal and transmucosal delivery, explore market expansion in anticoagulant therapy, ensure patent protection, manage regulatory compliance, and prioritize investment in R&D and clinical trials."
+    },
+    "pharmacokinetics": {
+      "summary": "Integrated pharmacokinetics (ADME + PK/PD) profile for apixaban (Eliquis) combining authoritative data from FDA/EMA sources and pivotal clinical trials. Absorption: Absolute oral bioavailability is approximately 50% (F ~ 50%). Time to maximum plasma concentration (Tmax) is about 3–4 hours after oral dosing. Food effect: In clinical doses, food does not meaningfully change overall exposure (AUC or Cmax); Tmax may be slightly delayed with a high-fat meal, but exposure remains similar. Dose-proportionality: Absorption is linear for oral doses up to 10 mg; for higher doses (≥25 mg), absorption may become dissolution-limited, resulting in reduced bioavailability. Distribution: Volume of distribution (Vd) is about 21 L (apparent), reflecting distribution primarily within the central compartment with limited tissue distribution. These values are supported by FDA labeling (Eliquis) and EMA pharmacokinetic data, with pivotal trials such as ARISTOTLE contributing to the Tmax and bioavailability figures cited in both sources.",
+      "Dosage Forms": {
+        "forms": [
+          {
+            "form": "Not available"
+          }
+        ]
+      },
+      "Market Overview": {
+        "current": [
+          "Global: Not available",
+          "North America: Not available",
+          "Europe: Not available",
+          "Asia-Pacific: Not available",
+          "Latin America: Not available",
+          "Middle East & Africa: Not available"
+        ],
+        "forecast": [
+          "Global: Not available",
+          "North America: Not available",
+          "Europe: Not available",
+          "Asia-Pacific: Not available",
+          "Latin America: Not available",
+          "Middle East & Africa: Not available"
+        ]
+      },
+      "Pharmacokinetics": {
+        "parameters": [
+          {
+            "unit": "",
+            "value": "50%",
+            "parameter": "Bioavailability"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Protein Binding"
+          },
+          {
+            "unit": "hours",
+            "value": "Not available",
+            "parameter": "Half-life"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Metabolism"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Excretion"
+          }
+        ]
+      },
+      "Current Formulations": {
+        "formulations": [
+          {
+            "formulation": "Not available"
+          }
+        ]
+      },
+      "Competitive Landscape": {
+        "competitors": [
+          {
+            "competitor": "Not available"
+          },
+          {
+            "competitor": "Not available"
+          },
+          {
+            "competitor": "Not available"
+          }
+        ]
+      },
+      "Physicochemical Profile": {
+        "parameters": [
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Molecular Weight (Da)"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Melting Point (°C)"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Log P"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Solubility"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "pKa"
+          }
+        ]
+      }
+    },
+    "suitability_matrix": {
+      "summary": "The quantitative analysis shows that both transdermal and transmucosal routes have been evaluated. Transmucosal delivery scores 5.3/9 while transdermal scores 5.3/9.",
+      "td_verdict": "Conditional-Go",
+      "tm_verdict": "Conditional-Go",
+      "final_weighted_scores": {
+        "transdermal_td": "5.3 (58.89%)",
+        "transmucosal_tm": "5.3 (58.89%)"
+      },
+      "strategic_decision_matrix": {
+        "risk_assessment": {
+          "high_risk_factors": {
+            "td": "Challenges with Molecular Weight, Melting Point, Log P require mitigation strategies",
+            "tm": "Challenges with Molecular Weight, Melting Point, Log P require mitigation strategies"
+          },
+          "success_probability": {
+            "td_route": "Medium - Medium risk",
+            "tm_route": "Medium - Medium risk"
+          },
+          "mitigation_opportunities": {
+            "td": "Advanced penetration enhancers and formulation technologies.",
+            "tm": "Permeation enhancers and novel delivery systems."
+          }
+        },
+        "go_no_go_verdicts": {
+          "transdermal_route": "Conditional-Go - Moderate suitability with formulation enhancement required",
+          "transmucosal_route": "Conditional-Go - Moderate suitability with formulation enhancement required"
+        }
+      },
+      "weighted_scoring_assessment": {
+        "td_weighted_score": {
+          "dose": "9 × 0.40 = 3.6",
+          "log_p": "0 × 0.10 = 0.0",
+          "melting_point": "4 × 0.20 = 0.8",
+          "total_td_score": "5.3",
+          "molecular_weight": "3 × 0.30 = 0.9"
+        },
+        "tm_weighted_score": {
+          "dose": "9 × 0.40 = 3.6",
+          "log_p": "0 × 0.10 = 0.0",
+          "melting_point": "4 × 0.20 = 0.8",
+          "total_tm_score": "5.3",
+          "molecular_weight": "3 × 0.30 = 0.9"
+        }
+      },
+      "corrected_parameter_based_scoring": [
+        {
+          "td_score": 9,
+          "tm_score": 9,
+          "parameter": "Dose",
+          "td_rationale": "Dose value of 0.14 falls within the ≤0 range",
+          "tm_rationale": "Dose value of 0.14 falls within the ≤0 range",
+          "0dc6e877_value": "0.14 mg/kg/day"
+        },
+        {
+          "td_score": 3,
+          "tm_score": 3,
+          "parameter": "Molecular Weight",
+          "td_rationale": "Molecular Weight value of 459.5 falls within the 450–499 range",
+          "tm_rationale": "Molecular Weight value of 459.5 falls within the 450–499 range",
+          "0dc6e877_value": "459.5 Da"
+        },
+        {
+          "td_score": 4,
+          "tm_score": 4,
+          "parameter": "Melting Point",
+          "td_rationale": "Melting Point value of 239.0 falls within the 210–249 range",
+          "tm_rationale": "Melting Point value of 239.0 falls within the 210–249 range",
+          "0dc6e877_value": "239.0 °C"
+        },
+        {
+          "td_score": 0,
+          "tm_score": 0,
+          "parameter": "Log P",
+          "td_rationale": "Log P value of 2.25 falls within the <0 range",
+          "tm_rationale": "Log P value of 2.25 falls within the <0 range",
+          "0dc6e877_value": "2.25"
+        }
+      ],
+      "delivery_route_feasibility_assessment": [
+        {
+          "route": "Transdermal (TD)",
+          "percentage": "58.89%",
+          "total_score": "5.3",
+          "max_possible": "9",
+          "cognito_verdict": "Conditional-Go",
+          "decision_category": "Moderate",
+          "development_priority": "Low"
+        },
+        {
+          "route": "Transmucosal (TM)",
+          "percentage": "58.89%",
+          "total_score": "5.3",
+          "max_possible": "9",
+          "cognito_verdict": "Conditional-Go",
+          "decision_category": "Moderate",
+          "development_priority": "Low"
+        }
+      ]
+    },
+    "current_formulations": {
+      "summary": "Executive summary: Current apixaban formulations span the innovator brand product (Eliquis) tablets in 2.5 mg and 5 mg strengths, plus multiple generics and an emerging novel formulation. Regulatory anchors come from FDA and EMA records, with generic entry expanding post-2019 as patents and exclusivities evolved. A novel apixaban oral dissolving film (ODF) is reported to be in development with an NDA accepted by the FDA as of 2025, though final approval status remains pending. API supply chains involve multiple unnamed suppliers with DMF/CEP filings that vary by supplier; public disclosure of specific DMF/CEP details is incomplete.\n\n1) Brand-name product and approved tablet formulations\n- Eliquis (apixaban) is the reference brand product developed by Bristol Myers Squibb and Pfizer. The standard oral tablet strengths are 2.5 mg and 5 mg. \n- Regulatory basis: Eliquis received FDA approval in 2012 and has since achieved global regulatory clearances, including EMA approvals, with labeling anchored to FDA DailyMed registry data.\n\n2) Generic apixaban landscape\n- Generics are produced by multiple manufacturers and marketed in 2.5 mg and 5 mg tablet strengths. Leading generic manufacturers referenced include Hetero Labs (EMA-approved for generic marketing) and other major players such as Teva, Mylan, and Sandoz. \n- Regulatory status: Generics have obtained FDA and global approvals; post-2019 entry aligns with patent expiry timelines and regulatory authorizations in various jurisdictions. Specific approval dates vary by manufacturer and region, but a trend toward post-2019 generic entry is supported by multiple sources.\n\n3) Novel/formulation developments\n- TAH-3311: An apixaban oral dissolving film formulation is reported by Perplexity as a novel formulation developed by TAHO Pharmaceuticals Ltd. The NDA was reportedly accepted by the FDA on October 1, 2025, with approval pending. This status is not independently confirmed by FDA action within the cited sources and should be treated as pending regulatory review based on the reported date.\n\n4) API supply and formulation manufacturing\n- API suppliers for apixaban are multiple and unnamed in the current data. DMF/CEP status varies by supplier and region, and public disclosures of complete DMF/CEP details are not consistently available. This area remains partially opaque due to limited publicly disclosed documentation.\n\nNotes on data quality and scope:\n- The information reflects regulator-grounded anchors (FDA, EMA) for brand and broad regulatory statuses, complemented by industry/regulatory references for generics and development-stage formulations. Where data points are uncertain or not publicly disclosed, they are explicitly noted as such in the source notes.\n\nOverall, the current formulation landscape for apixaban encompasses: Eliquis tablets (2.5 mg and 5 mg), a growing set of generics with post-2019 market entry, and a potential novel formulation (ODF) in NDA proceedings as of 2025. API-supply chain data remains incomplete in public sources.",
+      "formulations": [
+        {
+          "brand": "Eliquis",
+          "approved": "Yes",
+          "strength": "2.5 mg",
+          "dosage_form": "Oral tablet",
+          "manufacturer": "Bristol Myers Squibb and Pfizer"
+        },
+        {
+          "brand": "Eliquis",
+          "approved": "Yes",
+          "strength": "5 mg",
+          "dosage_form": "Oral tablet",
+          "manufacturer": "Bristol Myers Squibb and Pfizer"
+        }
+      ]
+    },
+    "competitive_landscape": {
+      "summary": "Integrated competitive landscape for apixaban (NOAC/Factor Xa inhibitors) combining Source 2's quantitative market shares with the qualitative context from Source 1. Key points: Eliquis (apixaban) remains the leading NOAC in North America and Europe, with a market share of approximately 40-50% and an apixaban market size around 6.49 billion USD in 2024; Eliquis revenue was about 7.3 billion USD in 2024. Xarelto (rivaroxaban) holds about 30-35% of the NA/EU market, with global sales around 4.5 billion USD in 2023. Pradaxa (dabigatran) accounts for roughly 15-20% of the global NOAC market. Lixiana (edoxaban) is in the low-to-mid single digits by share and is viewed as more niche for atrial fibrillation and VTE prevention. Generic apixaban is emerging post-patent expiry in 2026 (US/EU) and is expected to capture roughly 15-20% of market share by 2027-2028. Warfarin (Coumadin/Jantoven) continues to decline and holds less than 10% of the overall anticoagulant market, though it remains used for specific indications. The data primarily reflect NA/EU segmentation for branded NOACs; some sources report global shares for certain brands, which may differ from regional shares. All quantitative figures originate from the 2024-2023 window (Source 2). Source 1 contributes qualitative context but does not provide clearly defined numeric market shares for apixaban.",
+      "Dosage Forms": {
+        "forms": [
+          {
+            "form": "Oral tablet"
+          }
+        ]
+      },
+      "Market Overview": {
+        "current": [
+          {
+            "region": "Global",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "North America",
+            "market_size": "$6.49 billion",
+            "market_share": "40-50%"
+          },
+          {
+            "region": "Europe",
+            "market_size": "$6.49 billion",
+            "market_share": "40-50%"
+          },
+          {
+            "region": "Asia-Pacific",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "Latin America",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "Middle East & Africa",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          }
+        ],
+        "forecast": [
+          {
+            "region": "Global",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "North America",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "Europe",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "Asia-Pacific",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "Latin America",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          },
+          {
+            "region": "Middle East & Africa",
+            "market_size": "Not available",
+            "market_share": "Not available"
+          }
+        ]
+      },
+      "Pharmacokinetics": {
+        "parameters": [
+          {
+            "unit": "%",
+            "value": "50",
+            "parameter": "Bioavailability"
+          },
+          {
+            "unit": "%",
+            "value": "87",
+            "parameter": "Protein Binding"
+          },
+          {
+            "unit": "hours",
+            "value": "12",
+            "parameter": "Half-life"
+          },
+          {
+            "unit": "",
+            "value": "Hepatic (CYP3A4)",
+            "parameter": "Metabolism"
+          },
+          {
+            "unit": "",
+            "value": "Renal (~25%) and Hepatic",
+            "parameter": "Excretion"
+          }
+        ]
+      },
+      "Current Formulations": {
+        "formulations": [
+          {
+            "brand": "Eliquis",
+            "formulation": "2.5 mg oral tablet"
+          },
+          {
+            "brand": "Eliquis",
+            "formulation": "5 mg oral tablet"
+          },
+          {
+            "brand": "Generic apixaban",
+            "formulation": "2.5 mg tablet"
+          },
+          {
+            "brand": "Generic apixaban",
+            "formulation": "5 mg tablet"
+          },
+          {
+            "brand": "Xarelto",
+            "formulation": "2.5 mg tablet"
+          },
+          {
+            "brand": "Xarelto",
+            "formulation": "10 mg tablet"
+          },
+          {
+            "brand": "Xarelto",
+            "formulation": "15 mg tablet"
+          },
+          {
+            "brand": "Xarelto",
+            "formulation": "20 mg tablet"
+          },
+          {
+            "brand": "Pradaxa",
+            "formulation": "75 mg capsule"
+          },
+          {
+            "brand": "Pradaxa",
+            "formulation": "110 mg capsule"
+          },
+          {
+            "brand": "Pradaxa",
+            "formulation": "150 mg capsule"
+          },
+          {
+            "brand": "Lixiana",
+            "formulation": "15 mg tablet"
+          },
+          {
+            "brand": "Lixiana",
+            "formulation": "30 mg tablet"
+          },
+          {
+            "brand": "Warfarin",
+            "formulation": "Warfarin 1 mg tablet"
+          },
+          {
+            "brand": "Warfarin",
+            "formulation": "Warfarin 2 mg tablet"
+          },
+          {
+            "brand": "Warfarin",
+            "formulation": "Warfarin 3 mg tablet"
+          },
+          {
+            "brand": "Warfarin",
+            "formulation": "Warfarin 5 mg tablet"
+          },
+          {
+            "brand": "Generic apixaban",
+            "formulation": "Generic apixaban tablets"
+          }
+        ]
+      },
+      "Competitive Landscape": {
+        "competitors": [
+          {
+            "brand": "Eliquis",
+            "competitor": "Pfizer/BMS",
+            "dosage_form": "Oral tablet",
+            "market_share": "40-50%"
+          },
+          {
+            "brand": "Xarelto",
+            "competitor": "Bayer/J&J",
+            "dosage_form": "Oral tablet",
+            "market_share": "30-35%"
+          },
+          {
+            "brand": "Pradaxa",
+            "competitor": "Bayer",
+            "dosage_form": "Oral tablet",
+            "market_share": "15-20%"
+          },
+          {
+            "brand": "Lixiana",
+            "competitor": "Daiichi Sankyo",
+            "dosage_form": "Oral tablet",
+            "market_share": "Not available"
+          },
+          {
+            "brand": "Generic apixaban",
+            "competitor": "Generic apixaban manufacturers",
+            "dosage_form": "Oral tablet",
+            "market_share": "15-20%"
+          },
+          {
+            "brand": "Warfarin",
+            "competitor": "Multiple manufacturers",
+            "dosage_form": "Oral tablet",
+            "market_share": "<10%"
+          }
+        ]
+      },
+      "Physicochemical Profile": {
+        "parameters": [
+          {
+            "unit": "Da",
+            "value": "459.49",
+            "parameter": "Molecular Weight (Da)"
+          },
+          {
+            "unit": "°C",
+            "value": "Not available",
+            "parameter": "Melting Point (°C)"
+          },
+          {
+            "unit": "",
+            "value": "2.5",
+            "parameter": "Log P"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "Solubility"
+          },
+          {
+            "unit": "",
+            "value": "Not available",
+            "parameter": "pKa"
+          }
+        ]
+      }
+    },
+    "data_coverage_scorecard": {
+      "data": [
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Market Overview",
+          "data_source": "IQVIA, Market Analysis Reports",
+          "completion_percent": "70%"
+        },
+        {
+          "notes": "Comprehensive data with detailed insights.",
+          "category": "Competitive Landscape",
+          "data_source": "Market Intelligence, Company Reports",
+          "completion_percent": "100%"
+        },
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Regulatory And Patent Status",
+          "data_source": "FDA, EMA, USPTO, EPO",
+          "completion_percent": "70%"
+        },
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Commercial Opportunities And Risks",
+          "data_source": "Market Analysis Reports",
+          "completion_percent": "70%"
+        },
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Current Formulations",
+          "data_source": "FDA, Manufacturer Reports",
+          "completion_percent": "70%"
+        },
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Investigational Formulations",
+          "data_source": "Company Reports, ClinicalTrials.gov",
+          "completion_percent": "70%"
+        },
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Physicochemical And Suitability Profile",
+          "data_source": "PubChem, Literature",
+          "completion_percent": "70%"
+        },
+        {
+          "notes": "Comprehensive data with detailed insights.",
+          "category": "Pharmacokinetics",
+          "data_source": "FDA Label, PubMed",
+          "completion_percent": "100%"
+        },
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Dosage And Delivery Challenges",
+          "data_source": "FDA Label, Manufacturer Reports",
+          "completion_percent": "70%"
+        },
+        {
+          "notes": "Good coverage with most key data points available.",
+          "category": "Clinical Trials",
+          "data_source": "ClinicalTrials.gov, PubMed",
+          "completion_percent": "70%"
+        }
+      ],
+      "summary": "The data coverage is partial across most categories, with an average completion of 76%. Additional data gathering recommended for key categories."
+    },
+    "investigational_formulations": {
+      "summary": "Investigational formulations for apixaban (beyond standard oral tablets) have been explored predominantly in preclinical, early-development, or conceptual stages, with the most concrete activity centered on transdermal delivery and auxiliary intranasal technologies. Based on sources combining patent activity, preclinical reports, and synthesis of development intelligence (through 2024–2025), the following modalities are highlighted:\n\n1) Transdermal patches (matrix or reservoir)\n- Status: Research/Preclinical; several patent activities exist as indicators of ongoing development.\n- Key references: WO2023025195A1 titled Apixaban transdermal patch and preparation method therefor; US patent application indicated by Justia Patents Search (Application #20240299372) for Transdermal Drug Delivery Systems for Administration of a Therapeutically Effective Amount of Apixaban and Other Direct Oral Anticoagulants, issued September 12, 2024.\n- Route: Transdermal\n- Notes: These sources collectively describe patch-based delivery strategies aimed at controlled/targeted exposure. Source 1 catalogs patent-level references and a Justia patent entry, while Source 2 explicitly lists Transdermal Patches as a research-oriented formulation class.\n\n2) Buccal films\n- Status: Research/Preclinical (listed as a distinct formulation type in development intelligence)\n- Route: Buccal/Sublingual\n- Notes: Source 2 explicitly includes Buccal Films as a mucoadhesive/ dissolving-film approach; this type is not explicitly detailed in Source 1 but is part of the consolidated investigational portfolio.\n\n3) Intranasal gels\n- Status: Research/Preclinical (early development)\n- Route: Intranasal\n- Key references: Intranasal In Situ Gel of Apixaban-Loaded Nanoethosomes (PubMed) cited in Source 1; Source 2 lists Intranasal Gels as a Formulation category.\n\n4) Injectable formulations (long-acting depot)\n- Status: Preclinical/Investigational\n- Route: Subcutaneous/Intramuscular\n- Notes: Source 2 identifies Injectable Formulations as a preclinical/investigational category, describing long-acting depot-like approaches to extend exposure.\n\n5) Implantable systems\n- Status: Conceptual/Investigational\n- Route: Implantable\n- Notes: Source 2 lists Implantable Systems (subcutaneous implants, osmotic pumps) as a conceptual/early exploratory category; these appear to be at the planning or early-stage concept level.\n\nTechnical considerations common to these approaches (as reported in Source 2):\n- Apixaban exhibits low aqueous solubility and susceptibility to hydrolysis, particularly under acidic conditions. Stability issues necessitate buffering strategies (pH ~3.5–4.5) and careful packaging to minimize degradation and sorption. These factors influence formulation choice (e.g., matrices, reservoirs, mucoadhesive systems, and parenteral depots) and drive a preference for non-oral routes in investigational work.\n\nEvidence themes and provenance:\n- Source 1 emphasizes patent activity and patent-related summaries (transdermal patch patents and a 2024 patent application), and notes on intranasal formulations via PubMed references. Source 2 provides a structured, contemporary listing of investigational formulations and explicit development stages (Research, Preclinical, Conceptual), with a summary of technical challenges. Taken together, there is broad alignment on the five modality categories (transdermal, buccal, intranasal, injectable, implantable) and the general stage of development (preclinical/investigational) but differences in the granularity of status details and explicit mentions of each modality.\n\nOverall, the investigational apixaban formulation landscape as of 2024–2025 is characterized by a small number of concrete transdermal patent activities and more broadly defined preclinical efforts across patch, buccal, intranasal, injectable, and implantable delivery systems. No approved, non-oral apixaban formulations are reported in these sources.",
+      "formulations": [
+        {
+          "phase": "Preclinical",
+          "status": "Research/Preclinical",
+          "developer": "Not available",
+          "formulation": "Transdermal patch",
+          "estimated_approval": "Not available"
+        },
+        {
+          "phase": "Preclinical",
+          "status": "Research/Preclinical",
+          "developer": "Not available",
+          "formulation": "Buccal films",
+          "estimated_approval": "Not available"
+        },
+        {
+          "phase": "Early development",
+          "status": "Research/Preclinical",
+          "developer": "Not available",
+          "formulation": "Intranasal gels",
+          "estimated_approval": "Not available"
+        },
+        {
+          "phase": "Preclinical/Investigational",
+          "status": "Preclinical/Investigational",
+          "developer": "Not available",
+          "formulation": "Injectable formulations (long-acting depot)",
+          "estimated_approval": "Not available"
+        },
+        {
+          "phase": "Conceptual/Investigational",
+          "status": "Conceptual/Investigational",
+          "developer": "Not available",
+          "formulation": "Implantable systems",
+          "estimated_approval": "Not available"
+        }
+      ]
+    },
+    "regulatory_and_patent_status": {
+      "patents": [
+        {
+          "title": "Not available",
+          "status": "Not available",
+          "expiry_date": "Not available",
+          "patent_number": "US 6,413,980"
+        }
+      ],
+      "summary": "Regulatory & Patent Status for Apixaban (Eliquis) – consolidated from Perplexity (authoritative) with corroborating input referencing FDA Orange Book status and US patent records. Key US patents, FDA Orange Book coverage, and regional patent activity are summarized below. Note: European (EP) and Japanese (JP) patent details are acknowledged as part of a comprehensive portfolio but are not enumerated in the provided data; please request EP/JP specifics if needed. There is a standalone older US patent reference (US 6,413,980) mentioned in Source 1 but not corroborated in the explicit US patent numbers provided by Source 2; this requires direct primary-patent database verification to confirm status or existence in a family tree. The FDA Orange Book is cited as listing apixaban-related patent protection and regulatory exclusivity, with exclusivity extending to late 2028 according to the more detailed source.",
+      "regulatory": [
+        {
+          "region": "US",
+          "status": "Not available",
+          "indication": "Not available",
+          "approval_date": "Not available"
+        }
+      ]
+    },
+    "dosage_and_delivery_challenges": {
+      "forms": [
+        {
+          "form": "Oral tablet",
+          "available": "Yes",
+          "strengths": [
+            "325 mg",
+            "500 mg",
+            "650 mg"
+          ]
+        },
+        {
+          "form": "Oral capsule",
+          "available": "Yes",
+          "strengths": [
+            "500 mg"
+          ]
+        }
+      ],
+      "summary": "Merged dosing forms for apixaban across sources indicate a standard oral administration via immediate-release tablets and emerging alternative forms. Immediate-release tablets are the standard dosage form with reported oral bioavailability of approximately 50%. Apixaban is characterized as a BCS Class II drug, meaning low aqueous solubility with high permeability. Food effects on the tablet form are minimal, but dissolution can be influenced by pH variations; to mitigate dissolution variability, formulations include excipients designed to optimize dissolution, and clinical practice monitors patient variability. An oral dissolving film (TAH-3311) is described as having comparable bioavailability to tablets (approximately 50%), with a focus on rapid disintegration and absorption via mucosal delivery to aid patients with dysphagia. The film uses a proprietary Transepithelial Delivery System to enhance mucosal absorption and potentially bypass swallowing difficulties; an NDA was reportedly submitted in 2025, with goals to reduce choking and aspiration risk in stroke survivors. Modified-release formulations are under investigation and not yet established; research explores maintaining consistent release kinetics for apixaban’s solubility profile using technologies such as solid dispersions or nanoparticle systems, with ongoing clinical evaluation. Novel delivery systems (e.g., nanoparticle-based or lipid-based approaches) are not established; challenges include apixaban’s poor aqueous solubility and variable absorption, along with stability concerns. A conflict observed between sources was the BCS classification: Source 1 incorrectly described high solubility with low permeability, whereas Source 2 provides the authoritative classification as Class II (low solubility, high permeability); consensus across sources identifies apixaban as a BCS Class II compound."
+    },
+    "executive_summary_and_decision": {
+      "data": [
+        {
+          "decision": "CONDITIONAL",
+          "risk_level": "Medium",
+          "key_criteria": "Suitability scores, patent status, and data coverage",
+          "justification": "The suitability scores for both transdermal and transmucosal delivery are average, indicating that the drug may be viable but requires further investigation. The patent status is available in phase 1 data, but further analysis is needed to determine the patent cliff timing."
+        }
+      ],
+      "summary": "The drug apixaban, delivered transdermally, presents a conditional opportunity in a growing market. Further data gathering is recommended to fully assess the potential and risks of this opportunity.",
+      "decision": "CONDITIONAL",
+      "risk_level": "Medium",
+      "key_summary_points": {
+        "decision": "Conditional go decision based on current data",
+        "growth_rate": "Compound annual growth rate of 4.5%",
+        "market_size": "Current market size of $20.1 billion, projected to grow to $31.5 billion",
+        "patent_timing": "Patent status available in phase 1 data, further analysis required",
+        "risk_assessment": "Medium risk due to incomplete data and average suitability scores",
+        "investment_level": "Medium priority",
+        "formulation_focus": "Transdermal delivery method has a suitability score of 5.3/9",
+        "geographic_strategy": "Geographic strategy to be determined after further data gathering"
+      },
+      "investment_priority": "Medium"
+    },
+    "commercial_opportunities_and_risks": {
+      "summary": "Merged Commercial Opportunities & Risk Factors for Apixaban (Eliquis) across 2024–2025 from two sources. The synthesis highlights market dynamics, expansion opportunities, and strategic considerations for apixaban.\n\nMarket size, regional dynamics, and growth drivers\n- Global market size for apixaban in 2024 was reported as approximately USD 20.7 billion, with North America identified as the largest regional share and adoption driven by AF/VTE burden and rising DOAC use. Emerging markets are highlighted as growth opportunities due to aging populations, rising cardiovascular disease prevalence, and improving healthcare infrastructure. A related growth driver cited involves the broader anticoagulant reversal market, with a CAGR around 9.5%. These points are drawn from the more data-rich source and corroborated thematically in the secondary source.\n\nIndication and label expansion opportunities\n- Indication expansion is a major growth vector. One source notes development for more than 10 new indications, including potential label expansions beyond current AF and VTE uses, which could materially boost peak sales. The other source confirms potential label expansions or new indications (e.g., extended VTE prevention post-surgical) in a broader sense, indicating strong ongoing activity in expanding apixaban’s clinical footprint.\n\nFormulation and delivery development\n- There is interest in formulation development to improve adherence and differentiation, including novel dosage forms such as extended-release formulations or fixed-dose combinations. However, neither source reports major launches to date; this remains a medium-term opportunity with uncertain near-term timing.\n\nPartnerships and business development activity\n- Strategic partnerships and alliances are flagged as important drivers of market penetration. Notably, Bristol-Myers Squibb (BMS) and Pfizer have a strong collaboration history on Eliquis, and further co-marketing or new alliances could accelerate expansion into new regions or indications. The presence of an active pipeline and potential acquisitions signals ongoing corporate development activity in this space.\n\nDigital health and technology integration\n- Digital health integration is identified as a potential opportunity pathway, though the available data is limited with content truncated in one source. The theme suggests potential use of digital tools to support adherence, monitoring, or data-driven targeting, but concrete plans and specifics are not fully described in the sources.\n\nIntellectual property and competitive landscape\n- An explicit IP-related consideration noted is the patent expiry timeline for Eliquis in the United States anticipated around 2030. This has implications for generic competition timing and market dynamics post-expiry, influencing short- to mid-term strategic planning.\n\nRisks and considerations (as reflected in the sources)\n- Patent expiry around 2030 introduces near-term generic competition risk, which can affect pricing, market share, and development strategies. Other risk details are less explicitly quantified in the sources, but the overall narrative emphasizes expanding opportunities through new indications, geographic growth, and partnerships as counterbalances to potential IP and market-entry challenges.\n\nSummary\n- Both sources converge on a positive growth outlook for apixaban, emphasizing market expansion (globally with a focus on emerging markets), indication expansion (10+ new indications), formulation innovation (medium-term opportunities), strategic partnerships (notably with BMS/Pfizer), and the critical IP consideration of a 2030 US patent expiry. One source provides explicit numeric market-size data and a specific reversal-market growth figure, while the other foregrounds broader geographic and indication development themes. Overall, the commercial opportunity surface appears robust, with data-supported growth signals and several strategic levers for market penetration and lifecycle management.",
+      "opportunities": [
+        {
+          "timeframe": "Not available",
+          "opportunity": "Indication expansion and label expansions for apixaban",
+          "estimated_value": "Not available",
+          "market_potential": "High"
+        }
+      ]
+    },
+    "physicochemical_and_suitability_profile": {
+      "summary": "Integrated Physicochemical Profile for apixaban. Data are drawn from two sources: Perplexity (authoritative drug databases with FDA-label references) and OpenAI ChatGPT-derived content. Where values are consistent across sources, they are presented as such; where conflicting, the conflict is noted and a resolution pathway is provided. Key numeric properties are prioritized from the most authoritative numeric sources available (FDA label/drug databases) and clearly labeled when ranges are provided. Observations about solubility/permeability reflect the explicit notes in the sources. Overall, the data indicate apixaban has a relatively high molecular weight with modest lipophilicity, a high melting point, and solubility/permeability challenges that impact formulation. BCS classification is not consistently reported across sources and remains unresolved pending primary regulatory data.",
+      "parameters": [
+        {
+          "unit": "Da",
+          "value": "180.16",
+          "parameter": "Molecular Weight"
+        },
+        {
+          "unit": "\u000b0C",
+          "value": "146-150",
+          "parameter": "Melting Point"
+        },
+        {
+          "unit": "",
+          "value": "1.19",
+          "parameter": "Log P"
+        },
+        {
+          "unit": "",
+          "value": "Freely soluble in water",
+          "parameter": "Solubility"
+        },
+        {
+          "unit": "",
+          "value": "9.5",
+          "parameter": "pKa"
+        }
+      ]
+    }
+  },
+  "unstructured_data": ""
+}
