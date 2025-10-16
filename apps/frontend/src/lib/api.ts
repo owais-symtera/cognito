@@ -262,6 +262,7 @@ class ApiClient {
         ...headers,
         ...options.headers,
       },
+      credentials: 'include', // Required for CORS with credentials
     }
 
     try {
@@ -338,6 +339,7 @@ class ApiClient {
       method: 'POST',
       headers,
       body: formData,
+      credentials: 'include', // Required for CORS with credentials
     })
 
     return await this.handleResponse<T>(response)
