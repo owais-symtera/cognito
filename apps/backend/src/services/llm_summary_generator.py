@@ -7,6 +7,7 @@ from typing import Dict, Any, Optional
 from openai import AsyncOpenAI
 import anthropic
 import structlog
+from .data_storage_service import DataStorageService
 
 logger = structlog.get_logger(__name__)
 
@@ -40,6 +41,40 @@ class LLMSummaryGenerator:
         start_time = time.time()
 
         try:
+            # CRITICAL: Validate data quality before sending to LLM
+            quality_check = self._validate_data_quality(merged_content)
+
+            if not quality_check['is_sufficient']:
+                logger.warning(
+                    "Insufficient data availability for LLM summary",
+                    category=category_name,
+                    quality_score=quality_check['quality_score'],
+                    issues=quality_check['issues']
+                )
+
+                # Return a clear message instead of generating false summary
+                return {
+                    "summary": f"**Insufficient Data Availability for {category_name}**\n\n"
+                               f"Unable to generate a meaningful summary for {drug_name} due to limited publicly available data.\n\n"
+                               f"**Data Availability Issues:**\n" + "\n".join([f"- {issue}" for issue in quality_check['issues']]) + "\n\n"
+                               f"**Data Availability Score:** {quality_check['quality_score']:.2f}/1.00 (Minimum required: 0.15)\n\n"
+                               f"This category requires additional data from authoritative sources to generate a comprehensive summary.",
+                    "style_name": "insufficient_data",
+                    "provider": "system",
+                    "model": "none",
+                    "generation_time_ms": int((time.time() - start_time) * 1000),
+                    "tokens_used": 0,
+                    "cost_estimate": 0.0,
+                    "success": False,
+                    "error": "Insufficient data availability",
+                    "quality_check": quality_check
+                }
+
+            logger.info(
+                "Data quality validation passed",
+                category=category_name,
+                quality_score=quality_check['quality_score']
+            )
             # Get category-specific summary configuration
             category_config = await self.config_service.get_category_summary_config(category_name)
 
@@ -64,13 +99,31 @@ class LLMSummaryGenerator:
                 )
 
             # Prepare prompts with variable substitution
+            # Note: target_word_count column now stores character count
+            target_char_count = category_config.get('target_word_count', 3000)  # Default 3000 chars
+
+            # Add safety instructions to prevent false information generation
+            data_quality_instructions = """
+
+CRITICAL DATA QUALITY REQUIREMENTS:
+- NEVER make up, invent, or hallucinate information that is not present in the source data
+- If specific data points are marked as "N/A", "Not available", "Unknown", or missing, you MUST explicitly state: "Data not available" or "No information publicly available"
+- DO NOT use placeholder or example values - only use actual data from the source
+- If the source data is insufficient or mostly null values, state clearly: "Limited data available. [Describe what IS available]. Additional information is not publicly available at this time."
+- When data conflicts or is unclear, acknowledge the uncertainty rather than choosing arbitrary values
+- Preserve actual numbers, dates, and facts exactly as stated in the source
+- NEVER mention API providers, source names, ChatGPT, Perplexity, Gemini, OpenAI, or any data sources
+- DO NOT write "Source 1 reports...", "According to ChatGPT...", "Perplexity indicates...", etc.
+- Write as an authoritative factual report WITHOUT source attributions
+"""
+
             system_prompt = self._substitute_variables(
                 category_config['system_prompt'],
                 category_name=category_name,
                 drug_name=drug_name,
                 style_name=category_config['style_name'],
-                target_word_count=str(category_config.get('target_word_count', 500))
-            )
+                target_char_count=str(target_char_count)
+            ) + data_quality_instructions
 
             user_prompt = self._substitute_variables(
                 category_config['user_prompt_template'],
@@ -78,20 +131,19 @@ class LLMSummaryGenerator:
                 drug_name=drug_name,
                 merged_content=merged_content,
                 custom_instructions=category_config.get('custom_instructions', ''),
-                target_word_count=str(category_config.get('target_word_count', 500))
+                target_char_count=str(target_char_count)
             )
 
-            # Calculate max_tokens based on target_word_count to enforce length limit
-            # Average: 1 word ≈ 1.3 tokens, add 20% buffer for safety
-            target_word_count = category_config.get('target_word_count', 500)
-            calculated_max_tokens = int(target_word_count * 1.3 * 1.2)  # word-to-token ratio with buffer
+            # Calculate max_tokens based on target_char_count to enforce length limit
+            # Average: 1 character ≈ 0.25 tokens (4 chars per token), add 20% buffer
+            calculated_max_tokens = int(target_char_count * 0.25 * 1.2)
 
             # Use the smaller of calculated limit or provider default to enforce target length
             effective_max_tokens = min(calculated_max_tokens, provider_config['max_tokens'])
 
             logger.info(
                 "Summary length enforcement",
-                target_words=target_word_count,
+                target_chars=target_char_count,
                 calculated_tokens=calculated_max_tokens,
                 provider_max_tokens=provider_config['max_tokens'],
                 effective_max_tokens=effective_max_tokens
@@ -106,6 +158,25 @@ class LLMSummaryGenerator:
             )
 
             generation_time_ms = int((time.time() - start_time) * 1000)
+
+            # Log API usage
+            try:
+                await DataStorageService.store_api_usage_log(
+                    request_id=request_id,
+                    category_result_id=None,
+                    api_provider=provider_config['key'],
+                    endpoint=provider_config['model'],
+                    response_status=200,
+                    response_time_ms=generation_time_ms,
+                    token_count=result.get('tokens_used', 0),
+                    total_cost=result.get('cost_estimate', 0.0),
+                    category_name=category_name,
+                    prompt_text=f"System: {system_prompt[:200]}... | User: {user_prompt[:200]}...",
+                    response_data={"summary_length": len(result.get('summary', '')), "success": True},
+                    request_payload={"drug_name": drug_name, "style": category_config['style_name']}
+                )
+            except Exception as log_error:
+                logger.warning("Failed to log API usage", error=str(log_error))
 
             # Save to history
             await self.config_service.save_summary_history(
@@ -172,6 +243,24 @@ class LLMSummaryGenerator:
                         success=False,
                         error_message=str(e)
                     )
+
+                    # Log failed API usage
+                    try:
+                        await DataStorageService.store_api_usage_log(
+                            request_id=request_id,
+                            category_result_id=None,
+                            api_provider=provider_config['key'],
+                            endpoint=provider_config['model'],
+                            response_status=500,
+                            response_time_ms=generation_time_ms,
+                            token_count=0,
+                            total_cost=0.0,
+                            category_name=category_name,
+                            error_message=str(e),
+                            request_payload={"drug_name": drug_name, "error": True}
+                        )
+                    except Exception as log_error:
+                        logger.warning("Failed to log API usage for error", error=str(log_error))
             except:
                 pass  # Failed to save history, but don't crash
 
@@ -389,6 +478,147 @@ class LLMSummaryGenerator:
         input_cost = usage.input_tokens * input_rate
         output_cost = usage.output_tokens * output_rate
         return input_cost + output_cost
+
+    def _validate_data_quality(self, merged_content: str) -> Dict[str, Any]:
+        """
+        Validate the quality of merged content before sending to LLM
+
+        Detects:
+        - Mostly null/N/A/empty values
+        - Very short content
+        - Repetitive placeholder text
+        - Generic error messages
+
+        Returns:
+            Dictionary with is_sufficient, quality_score, and issues
+        """
+        if not merged_content or not merged_content.strip():
+            return {
+                "is_sufficient": False,
+                "quality_score": 0.0,
+                "issues": ["Content is empty or null"]
+            }
+
+        content = merged_content.strip().lower()
+        content_length = len(content)
+        issues = []
+        quality_score = 1.0
+
+        # Check 1: Minimum length (at least 200 characters of meaningful content)
+        if content_length < 200:
+            issues.append(f"Content too short ({content_length} chars, minimum 200)")
+            quality_score -= 0.4
+
+        # Check 2: Count null/N/A indicators
+        null_indicators = [
+            'not available', 'n/a', 'na', 'null', 'none', 'no data',
+            'no information', 'not found', 'unknown', 'not specified',
+            'data not available', 'information not available',
+            'no results', 'not applicable', 'not disclosed'
+        ]
+
+        null_count = sum(content.count(indicator) for indicator in null_indicators)
+
+        # If more than 30% of sentences contain null indicators, data is poor
+        sentence_count = max(content.count('.'), content.count('\n'), 1)
+        null_ratio = null_count / sentence_count
+
+        if null_ratio > 0.3:
+            issues.append(f"High ratio of null/N/A values ({null_count} occurrences in {sentence_count} sentences)")
+            quality_score -= 0.4
+
+        # Check 3: Detect placeholder patterns
+        placeholder_patterns = [
+            '<string:', '<number:', '[insert ', '[add ', '[fill ',
+            '{{', '}}', 'placeholder', 'example value', 'sample data'
+        ]
+
+        placeholder_count = sum(content.count(pattern) for pattern in placeholder_patterns)
+        if placeholder_count > 5:
+            issues.append(f"Contains placeholder text ({placeholder_count} instances)")
+            quality_score -= 0.3
+
+        # Check 4: Detect error messages
+        error_patterns = [
+            'error:', 'failed to', 'exception:', 'could not',
+            'unable to retrieve', 'request failed', 'api error',
+            'timeout', 'connection error', 'invalid response'
+        ]
+
+        error_count = sum(content.count(pattern) for pattern in error_patterns)
+        if error_count > 2:
+            issues.append(f"Contains error messages ({error_count} instances)")
+            quality_score -= 0.3
+
+        # Check 5: Repetitive content (same phrase repeated many times)
+        words = content.split()
+        if len(words) > 0:
+            word_diversity = len(set(words)) / len(words)
+            if word_diversity < 0.3:  # Less than 30% unique words
+                issues.append(f"Low content diversity ({word_diversity:.2f}, expected > 0.3)")
+                quality_score -= 0.2
+
+        # Check 6: Meaningful numeric data (at least some numbers for quantitative categories)
+        numeric_chars = sum(c.isdigit() for c in content)
+        numeric_ratio = numeric_chars / content_length if content_length > 0 else 0
+
+        # For quantitative categories, expect at least 2% numeric content
+        if numeric_ratio < 0.02 and content_length > 500:
+            # Only penalize if it's a long response with almost no numbers
+            issues.append(f"Very little numeric data ({numeric_ratio:.2%}, expected > 2%)")
+            quality_score -= 0.1
+
+        # Check 7: Table data completeness (detect tables with mostly empty rows)
+        # Look for table-like structures with row separators
+        if '|' in content or '\n' in content:
+            lines = content.split('\n')
+            table_rows = [line for line in lines if '|' in line or ':' in line]
+
+            if len(table_rows) > 5:  # Only check if we have a table-like structure
+                # Count rows that are mostly empty (very short or only separators)
+                empty_rows = 0
+                data_rows = 0
+
+                for row in table_rows:
+                    # Remove table separators and whitespace
+                    cleaned_row = row.replace('|', '').replace('-', '').replace('_', '').strip()
+
+                    # Check if row is empty or has only null indicators
+                    if len(cleaned_row) < 10 or cleaned_row.lower() in ['', 'n/a', 'na', 'not available', 'none', 'null']:
+                        empty_rows += 1
+                    else:
+                        data_rows += 1
+
+                # If more than 60% of rows are empty, flag it
+                if data_rows > 0:
+                    empty_ratio = empty_rows / (empty_rows + data_rows)
+                    if empty_ratio > 0.60:
+                        issues.append(f"Table has mostly empty rows ({empty_rows} empty out of {empty_rows + data_rows} total, {empty_ratio:.0%} empty)")
+                        quality_score -= 0.5  # Heavy penalty for empty tables
+
+        # Ensure quality score doesn't go below 0
+        quality_score = max(0.0, quality_score)
+
+        # RELAXED threshold: Allow partial summaries if there's SOME data
+        # Only reject if quality is extremely poor (< 0.15) or too many critical issues (>= 5)
+        # This allows summaries with partial data like "2 rows filled, 8 empty"
+        is_sufficient = quality_score >= 0.15 and len(issues) < 5
+
+        logger.info(
+            "Data quality validation",
+            quality_score=quality_score,
+            is_sufficient=is_sufficient,
+            issues_count=len(issues),
+            content_length=content_length
+        )
+
+        return {
+            "is_sufficient": is_sufficient,
+            "quality_score": quality_score,
+            "issues": issues,
+            "content_length": content_length,
+            "null_ratio": null_ratio
+        }
 
     def _create_fallback_response(
         self,

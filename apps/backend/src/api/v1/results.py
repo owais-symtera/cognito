@@ -54,7 +54,12 @@ async def get_final_output(request_id: str) -> Dict[str, Any]:
 
             if row:
                 logger.info(f"Retrieved existing final output for request {request_id}")
-                return row['final_output']
+                final_output = row['final_output']
+                # Ensure it's a dict (asyncpg returns JSONB as string sometimes)
+                if isinstance(final_output, str):
+                    import json
+                    final_output = json.loads(final_output)
+                return final_output
 
         finally:
             await conn.close()

@@ -335,3 +335,132 @@ async def get_prompt_variables(
     except Exception as e:
         logger.error("Failed to get prompt variables", error=str(e))
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ==================== Prompt Preview ====================
+
+@router.post("/prompts/preview")
+async def preview_llm_prompt(
+    preview_data: Dict[str, Any],
+    config_service: SummaryConfigService = Depends(get_summary_config)
+):
+    """
+    Preview the EXACT prompt that will be sent to the LLM
+
+    Includes:
+    - Variable substitution
+    - Safety instructions
+    - Data quality requirements
+
+    Request body:
+    {
+        "category_name": "Market Overview",
+        "drug_name": "Aspirin",
+        "merged_content": "Sample merged content...",
+        "style_id": "optional-style-id"  # If not provided, uses category's default style
+    }
+    """
+    try:
+        category_name = preview_data.get("category_name")
+        drug_name = preview_data.get("drug_name", "ExampleDrug")
+        merged_content = preview_data.get("merged_content", "Sample merged content for preview")
+        style_id = preview_data.get("style_id")
+
+        if not category_name:
+            raise HTTPException(status_code=400, detail="category_name is required")
+
+        # Get category configuration
+        if style_id:
+            # Get specific style
+            style = await config_service.get_summary_style(style_id)
+            if not style:
+                raise HTTPException(status_code=404, detail=f"Style {style_id} not found")
+
+            category_config = {
+                "system_prompt": style["system_prompt"],
+                "user_prompt_template": style["user_prompt_template"],
+                "style_name": style["style_name"],
+                "target_word_count": style["target_word_count"],  # Actually stores character count
+                "custom_instructions": ""
+            }
+        else:
+            # Get category's default style
+            category_config = await config_service.get_category_summary_config(category_name)
+            if not category_config:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"No summary configuration found for category '{category_name}'"
+                )
+
+        target_char_count = category_config.get('target_word_count', 3000)
+
+        # Add safety instructions (same as in llm_summary_generator.py)
+        data_quality_instructions = """
+
+CRITICAL DATA QUALITY REQUIREMENTS:
+- NEVER make up, invent, or hallucinate information that is not present in the source data
+- If specific data points are marked as "N/A", "Not available", "Unknown", or missing, you MUST explicitly state this in your summary
+- DO NOT use placeholder or example values - only use actual data from the source
+- If the source data is insufficient or mostly null values, state this clearly: "Insufficient data available for [specific aspect]"
+- When data conflicts or is unclear, acknowledge the uncertainty rather than choosing arbitrary values
+- Preserve actual numbers, dates, and facts exactly as stated in the source
+"""
+
+        # Substitute variables in system prompt
+        system_prompt = category_config['system_prompt'].replace(
+            "{{category_name}}", category_name
+        ).replace(
+            "{{drug_name}}", drug_name
+        ).replace(
+            "{{style_name}}", category_config['style_name']
+        ).replace(
+            "{{target_char_count}}", str(target_char_count)
+        ).replace(
+            "{{target_word_count}}", str(target_char_count)  # Legacy support
+        ) + data_quality_instructions
+
+        # Substitute variables in user prompt
+        user_prompt = category_config['user_prompt_template'].replace(
+            "{{category_name}}", category_name
+        ).replace(
+            "{{drug_name}}", drug_name
+        ).replace(
+            "{{merged_content}}", merged_content
+        ).replace(
+            "{{custom_instructions}}", category_config.get('custom_instructions', '')
+        ).replace(
+            "{{target_char_count}}", str(target_char_count)
+        ).replace(
+            "{{target_word_count}}", str(target_char_count)  # Legacy support
+        )
+
+        # Calculate max_tokens
+        calculated_max_tokens = int(target_char_count * 0.25 * 1.2)
+
+        # Get active provider
+        provider = await config_service.get_active_summary_provider()
+        effective_max_tokens = min(calculated_max_tokens, provider['max_tokens']) if provider else calculated_max_tokens
+
+        return {
+            "success": True,
+            "preview": {
+                "category_name": category_name,
+                "drug_name": drug_name,
+                "style_name": category_config['style_name'],
+                "target_char_count": target_char_count,
+                "calculated_max_tokens": calculated_max_tokens,
+                "effective_max_tokens": effective_max_tokens,
+                "provider": provider['key'] if provider else "No active provider",
+                "model": provider['model'] if provider else "N/A",
+                "system_prompt": system_prompt,
+                "user_prompt": user_prompt,
+                "merged_content_preview": merged_content[:500] + "..." if len(merged_content) > 500 else merged_content,
+                "merged_content_length": len(merged_content),
+                "instructions": "This is the EXACT prompt that will be sent to the LLM API"
+            }
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error("Failed to preview prompt", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))

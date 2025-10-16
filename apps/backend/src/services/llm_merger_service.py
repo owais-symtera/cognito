@@ -5,9 +5,11 @@ Uses GPT-5-nano to intelligently merge conflicting pharmaceutical data from mult
 
 import json
 import os
+import time
 from typing import Dict, List, Any, Optional
 from openai import AsyncOpenAI
 import structlog
+from .data_storage_service import DataStorageService
 
 logger = structlog.get_logger(__name__)
 
@@ -25,7 +27,8 @@ class LLMMergerService:
         self,
         category_name: str,
         drug_name: str,
-        responses: List[Dict[str, Any]]
+        responses: List[Dict[str, Any]],
+        request_id: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Use LLM to merge conflicting responses from multiple providers
@@ -34,6 +37,7 @@ class LLMMergerService:
             category_name: Pharmaceutical category
             drug_name: Drug name
             responses: List of provider responses with metadata
+            request_id: Optional request ID for API logging
 
         Returns:
             Merged data with confidence scores and conflict resolutions
@@ -54,6 +58,7 @@ class LLMMergerService:
 
         try:
             # Call GPT-5-nano for merge assistance
+            start_time = time.time()
             completion = await self.client.chat.completions.create(
                 model=self.model,
                 temperature=self.temperature,
@@ -69,6 +74,7 @@ class LLMMergerService:
                 ],
                 response_format={"type": "json_object"}
             )
+            response_time_ms = int((time.time() - start_time) * 1000)
 
             # Parse LLM response
             llm_response = json.loads(completion.choices[0].message.content)
@@ -78,6 +84,26 @@ class LLMMergerService:
                 confidence=llm_response.get("overall_confidence", 0),
                 conflicts_resolved=len(llm_response.get("conflicts_resolved", []))
             )
+
+            # Log API usage
+            if request_id:
+                try:
+                    await DataStorageService.store_api_usage_log(
+                        request_id=request_id,
+                        category_result_id=None,
+                        api_provider="openai",
+                        endpoint=self.model,
+                        response_status=200,
+                        response_time_ms=response_time_ms,
+                        token_count=completion.usage.total_tokens,
+                        total_cost=self._calculate_cost(completion.usage.total_tokens),
+                        category_name=category_name,
+                        prompt_text=f"Merge {len(responses)} sources for {drug_name}",
+                        response_data={"confidence": llm_response.get("overall_confidence"), "conflicts": len(llm_response.get("conflicts_resolved", []))},
+                        request_payload={"drug_name": drug_name, "sources": len(responses), "operation": "merge"}
+                    )
+                except Exception as log_error:
+                    logger.warning("Failed to log API usage", error=str(log_error))
 
             return {
                 "merged_content": llm_response.get("merged_content", ""),
@@ -100,6 +126,26 @@ class LLMMergerService:
                 error=str(e),
                 category=category_name
             )
+
+            # Log failed API usage
+            if request_id:
+                try:
+                    await DataStorageService.store_api_usage_log(
+                        request_id=request_id,
+                        category_result_id=None,
+                        api_provider="openai",
+                        endpoint=self.model,
+                        response_status=500,
+                        response_time_ms=0,
+                        token_count=0,
+                        total_cost=0.0,
+                        category_name=category_name,
+                        error_message=str(e),
+                        request_payload={"drug_name": drug_name, "sources": len(responses), "operation": "merge", "error": True}
+                    )
+                except Exception as log_error:
+                    logger.warning("Failed to log API usage for error", error=str(log_error))
+
             # Fallback to simple concatenation
             return self._fallback_merge(responses)
 
@@ -114,9 +160,11 @@ class LLMMergerService:
                 4. COMBINE LISTS COMPLETELY: Include the full union of all lists (side effects, indications, competitors, market data, etc.)
                 5. PRESERVE NUMERICAL DATA: Include ALL numeric values, ranges, and statistics from all sources
                 6. MAXIMIZE INFORMATION: The goal is MAXIMUM comprehensive detail, not brevity
+                7. NEVER MENTION SOURCE PROVIDERS: DO NOT reference API providers, source names, ChatGPT, Perplexity, Gemini, OpenAI, or any data sources in the merged content
+                8. NO SOURCE ATTRIBUTIONS: Remove all mentions like "Source 1", "According to ChatGPT", "Perplexity reports", etc.
 
                 When merging:
-                1. Identify CONFLICTS: When sources disagree, note the conflict
+                1. Identify CONFLICTS: When sources disagree, note the conflict WITHOUT mentioning sources
                 2. Resolve using CONSENSUS: Prefer information that appears in multiple sources
                 3. Prefer AUTHORITATIVE sources: Government agencies > Peer-reviewed > Industry > News
                 4. Keep ALL NUMERIC data: When values differ, provide range and note the variance
@@ -124,6 +172,7 @@ class LLMMergerService:
                 6. Maintain ACCURACY: Never fabricate information
                 7. Track CONFIDENCE: Higher when sources agree, lower when they conflict
                 8. PRESERVE COMPLETENESS: Include all data points, even if only from one source
+                9. WRITE AS FACTUAL REPORT: The merged content should read as an authoritative report, NOT as "Source X says..."
 
                 Output JSON format:
                 {
@@ -149,13 +198,11 @@ class LLMMergerService:
     ) -> str:
         """Create merge prompt for LLM"""
 
-        prompt = f"""Merge the following {len(responses)} sources about {category_name} for {drug_name}:
+        prompt = f"""Merge the following {len(responses)} data sources about {category_name} for {drug_name}:
 
 """
 
         for i, resp in enumerate(responses, 1):
-            provider = resp.get("provider", "Unknown")
-            weight = resp.get("weight", 0)
             content = resp.get("response", "")
 
             # Truncate only extremely long responses to fit in context window
@@ -164,7 +211,7 @@ class LLMMergerService:
                 content = str(content)[:15000] + "... [truncated]"
 
             prompt += f"""
-SOURCE {i}: {provider} (Authority: {weight}/10)
+=== DATA SOURCE {i} ===
 {content}
 
 ---
@@ -172,14 +219,17 @@ SOURCE {i}: {provider} (Authority: {weight}/10)
 
         prompt += """
 
-INSTRUCTIONS:
-Merge these sources intelligently into a COMPREHENSIVE summary that includes ALL information from ALL sources.
-- Include the COMPLETE union of all data, tables, lists, and details
-- DO NOT omit information - include everything from all sources
-- Resolve conflicts by noting disagreements and providing ranges
-- The merged content should be MORE detailed than any single source
-- Preserve ALL numeric data, market figures, statistics, and measurements
-- Combine ALL lists completely (do not skip items)
+CRITICAL INSTRUCTIONS:
+1. Merge these data sources intelligently into a COMPREHENSIVE summary that includes ALL information
+2. Include the COMPLETE union of all data, tables, lists, and details
+3. DO NOT omit information - include everything from all sources
+4. Resolve conflicts by noting disagreements and providing ranges (WITHOUT mentioning which source)
+5. The merged content should be MORE detailed than any single source
+6. Preserve ALL numeric data, market figures, statistics, and measurements
+7. Combine ALL lists completely (do not skip items)
+8. NEVER mention source providers, API names, ChatGPT, Perplexity, Gemini, or OpenAI in the merged content
+9. DO NOT write "Source 1 says...", "According to Source 2...", etc.
+10. Write as an authoritative factual report
 
 Return JSON only with comprehensive merged_content."""
 
@@ -189,9 +239,9 @@ Return JSON only with comprehensive merged_content."""
         """Fallback merge when LLM fails"""
         logger.warning("Using fallback merge (LLM unavailable)")
 
-        # Simple concatenation
-        merged_content = "\n\n".join([
-            f"### {resp.get('provider', 'Unknown')}\n{resp.get('response', '')}"
+        # Simple concatenation WITHOUT provider names
+        merged_content = "\n\n---\n\n".join([
+            resp.get('response', '')
             for resp in responses
         ])
 
@@ -350,7 +400,8 @@ Return JSON only with comprehensive merged_content."""
     async def extract_structured_data(
         self,
         merged_content: str,
-        category_name: str
+        category_name: str,
+        request_id: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Extract structured data from merged content
@@ -358,6 +409,7 @@ Return JSON only with comprehensive merged_content."""
         Args:
             merged_content: Merged text content
             category_name: Category for extraction schema
+            request_id: Optional request ID for API logging
 
         Returns:
             Structured data dictionary
@@ -432,6 +484,7 @@ CRITICAL INSTRUCTIONS - READ CAREFULLY:
 6. Return ONLY valid JSON matching the schema structure with ACTUAL EXTRACTED VALUES."""
 
         try:
+            start_time = time.time()
             completion = await self.client.chat.completions.create(
                 model=self.model,
                 temperature=1,
@@ -447,6 +500,7 @@ CRITICAL INSTRUCTIONS - READ CAREFULLY:
                 ],
                 response_format={"type": "json_object"}
             )
+            response_time_ms = int((time.time() - start_time) * 1000)
 
             structured_data = json.loads(completion.choices[0].message.content)
 
@@ -456,8 +510,48 @@ CRITICAL INSTRUCTIONS - READ CAREFULLY:
                 fields=len(structured_data.keys())
             )
 
+            # Log API usage
+            if request_id:
+                try:
+                    await DataStorageService.store_api_usage_log(
+                        request_id=request_id,
+                        category_result_id=None,
+                        api_provider="openai",
+                        endpoint=self.model,
+                        response_status=200,
+                        response_time_ms=response_time_ms,
+                        token_count=completion.usage.total_tokens,
+                        total_cost=self._calculate_cost(completion.usage.total_tokens),
+                        category_name=category_name,
+                        prompt_text=f"Extract structured data for {category_name}",
+                        response_data={"fields_extracted": len(structured_data.keys())},
+                        request_payload={"category": category_name, "operation": "extract"}
+                    )
+                except Exception as log_error:
+                    logger.warning("Failed to log API usage", error=str(log_error))
+
             return structured_data
 
         except Exception as e:
             logger.error("Structured extraction failed", error=str(e))
+
+            # Log failed API usage
+            if request_id:
+                try:
+                    await DataStorageService.store_api_usage_log(
+                        request_id=request_id,
+                        category_result_id=None,
+                        api_provider="openai",
+                        endpoint=self.model,
+                        response_status=500,
+                        response_time_ms=0,
+                        token_count=0,
+                        total_cost=0.0,
+                        category_name=category_name,
+                        error_message=str(e),
+                        request_payload={"category": category_name, "operation": "extract", "error": True}
+                    )
+                except Exception as log_error:
+                    logger.warning("Failed to log API usage for error", error=str(log_error))
+
             return {}

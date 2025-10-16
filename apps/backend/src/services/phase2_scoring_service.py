@@ -6,12 +6,14 @@ using database-driven rubrics with LLM-generated rationales.
 """
 import asyncio
 import json
+import time
 from typing import Dict, List, Any, Optional, Tuple
 import structlog
 from datetime import datetime
 
 from ..utils.db_connection import DatabaseConnection
 from ..config.llm_config import get_llm_config
+from .data_storage_service import DataStorageService
 
 logger = structlog.get_logger(__name__)
 
@@ -180,13 +182,34 @@ Do not include any explanation, only the JSON object."""
 
             logger.info(f"[EXTRACTION] Sending prompt to LLM (length: {len(prompt)} chars)")
 
+            start_time = time.time()
             response = await llm_service.generate(
                 prompt=prompt,
                 temperature=0.0,  # Deterministic extraction
                 max_tokens=500
             )
+            response_time_ms = int((time.time() - start_time) * 1000)
 
             logger.info(f"[EXTRACTION] LLM Response: {response}")
+
+            # Log API usage
+            try:
+                await DataStorageService.store_api_usage_log(
+                    request_id="phase2_extraction",
+                    category_result_id=None,
+                    api_provider="llm_service",
+                    endpoint="parameter_extraction",
+                    response_status=200,
+                    response_time_ms=response_time_ms,
+                    token_count=len(prompt.split()) + len(response.split()),  # Rough estimate
+                    total_cost=0.0,
+                    category_name="Phase 2 Parameter Extraction",
+                    prompt_text=f"Extract parameters for {drug_name}",
+                    response_data={"operation": "extract_parameters"},
+                    request_payload={"drug": drug_name, "prompt_length": len(prompt)}
+                )
+            except Exception as log_error:
+                logger.warning("Failed to log API usage", error=str(log_error))
 
             # Parse JSON response
             extracted = json.loads(response.strip())
@@ -298,13 +321,34 @@ Return format:
 
 If you cannot find reliable information, return {{"value": null, "reasoning": "not found"}}"""
 
+            start_time = time.time()
             response = await llm_service.generate(
                 prompt=prompt,
                 temperature=0.0,  # Deterministic
                 max_tokens=300
             )
+            response_time_ms = int((time.time() - start_time) * 1000)
 
             logger.info(f"[PARAM_EXTRACTION] LLM Response for {parameter_name}: {response}")
+
+            # Log API usage
+            try:
+                await DataStorageService.store_api_usage_log(
+                    request_id="phase2_param_extraction",
+                    category_result_id=None,
+                    api_provider="llm_service",
+                    endpoint="dedicated_parameter_extraction",
+                    response_status=200,
+                    response_time_ms=response_time_ms,
+                    token_count=len(prompt.split()) + len(response.split()),
+                    total_cost=0.0,
+                    category_name=f"Phase 2 - {parameter_name}",
+                    prompt_text=f"Extract {parameter_name} for {drug_name}",
+                    response_data={"parameter": parameter_name},
+                    request_payload={"drug": drug_name, "parameter": parameter_name}
+                )
+            except Exception as log_error:
+                logger.warning("Failed to log API usage", error=str(log_error))
 
             # Parse JSON response
             parsed = json.loads(response.strip())
@@ -358,7 +402,21 @@ If you cannot find reliable information, return {{"value": null, "reasoning": "n
                 logger.warning("[LIVE_SEARCH] Perplexity API key not configured, skipping live search")
                 return {param: None for param in missing_params}
 
-            perplexity = PerplexityProvider(api_key=perplexity_config.api_key)
+            # Convert LLMModelConfig to provider config dict
+            provider_config = {
+                'base_url': perplexity_config.base_url,
+                'model': perplexity_config.model_name,
+                'cost_per_request': perplexity_config.cost_per_input_token * 1000,  # Estimate per request
+                'timeout': perplexity_config.timeout,
+                'max_retries': perplexity_config.max_retries
+            }
+
+            perplexity = PerplexityProvider(
+                api_key=perplexity_config.api_key,
+                config=provider_config,
+                timeout=perplexity_config.timeout,
+                max_retries=perplexity_config.max_retries
+            )
 
             # Search for each missing parameter
             for param in missing_params:
@@ -370,7 +428,28 @@ If you cannot find reliable information, return {{"value": null, "reasoning": "n
                     logger.info(f"[LIVE_SEARCH] Query: {query}")
 
                     # Perform live search
+                    start_time = time.time()
                     search_response = await perplexity.search(query, temperature=0.1)
+                    response_time_ms = int((time.time() - start_time) * 1000)
+
+                    # Log API usage for Perplexity search
+                    try:
+                        await DataStorageService.store_api_usage_log(
+                            request_id="phase2_live_search",
+                            category_result_id=None,
+                            api_provider="perplexity",
+                            endpoint=perplexity_config.model_name,
+                            response_status=200 if search_response and search_response.results else 404,
+                            response_time_ms=response_time_ms,
+                            token_count=len(query.split()) + (len(str(search_response.results)) if search_response else 0),
+                            total_cost=0.0,
+                            category_name=f"Phase 2 Live Search - {param}",
+                            prompt_text=query,
+                            response_data={"parameter": param, "results_count": len(search_response.results) if search_response and search_response.results else 0},
+                            request_payload={"drug": drug_name, "parameter": param, "query": query}
+                        )
+                    except Exception as log_error:
+                        logger.warning("Failed to log API usage", error=str(log_error))
 
                     if search_response and search_response.results:
                         # Combine all search result content
@@ -443,15 +522,36 @@ Instructions:
 
 Do not include any explanation, only the JSON object."""
 
+            start_time = time.time()
             response = await llm_service.generate(
                 prompt=prompt,
                 temperature=0.0,
                 max_tokens=100
             )
+            response_time_ms = int((time.time() - start_time) * 1000)
 
             # Parse response
             parsed = json.loads(response.strip())
             value = parsed.get('value')
+
+            # Log API usage
+            try:
+                await DataStorageService.store_api_usage_log(
+                    request_id="phase2_search_extraction",
+                    category_result_id=None,
+                    api_provider="llm_service",
+                    endpoint="extract_from_search",
+                    response_status=200,
+                    response_time_ms=response_time_ms,
+                    token_count=len(prompt.split()) + len(response.split()),
+                    total_cost=0.0,
+                    category_name=f"Phase 2 Search Extract - {param}",
+                    prompt_text=f"Extract {param} from search results",
+                    response_data={"parameter": param, "value": value},
+                    request_payload={"parameter": param, "content_length": len(search_content)}
+                )
+            except Exception as log_error:
+                logger.warning("Failed to log API usage", error=str(log_error))
 
             return float(value) if value is not None else None
 
@@ -627,12 +727,35 @@ Example format: "The {param_name} of {value} falls within the {range_text} range
 Generate the rationale:"""
 
             try:
+                start_time = time.time()
                 response = await llm_service.generate(
                     prompt=prompt,
                     temperature=0.3,
                     max_tokens=100
                 )
+                response_time_ms = int((time.time() - start_time) * 1000)
+
                 rationales[param_name] = response.strip()
+
+                # Log API usage
+                try:
+                    await DataStorageService.store_api_usage_log(
+                        request_id="phase2_rationale",
+                        category_result_id=None,
+                        api_provider="llm_service",
+                        endpoint="rationale_generation",
+                        response_status=200,
+                        response_time_ms=response_time_ms,
+                        token_count=len(prompt.split()) + len(response.split()),
+                        total_cost=0.0,
+                        category_name=f"Phase 2 Rationale - {param_name}",
+                        prompt_text=f"Generate rationale for {param_name} score",
+                        response_data={"parameter": param_name, "score": score},
+                        request_payload={"drug": drug_name, "parameter": param_name, "score": score}
+                    )
+                except Exception as log_error:
+                    logger.warning("Failed to log API usage", error=str(log_error))
+
             except Exception as e:
                 logger.error(f"[RATIONALE] Failed for {param_name}: {str(e)}")
                 rationales[param_name] = f"Score {score} assigned based on {param_name} value of {value} in range {range_text}."

@@ -958,41 +958,96 @@ Note: Advanced LLM summarization disabled. Enable 'llm_summary' stage for intell
                 finally:
                     await conn.close()
 
-            elif category_name == "Weighted Scoring Assessment":
-                # Weighted assessment combines parameter scores
-                # This will be implemented next
-                result = {
-                    "data": {
-                        "summary": f"Weighted Scoring Assessment for {drug_name} - To be implemented",
-                        "phase1_categories_used": list(phase1_data.keys()),
-                        "analysis_type": category_name
-                    },
-                    "confidence_score": 0.75,
-                    "llm_provider": "openai",
-                    "llm_model": "gpt-4",
-                    "processing_time": int((time.time() - stage_start) * 1000)
-                }
-
             else:
-                # Fallback for other Phase 2 categories
-                phase1_summaries = []
-                for cat_name, cat_data in phase1_data.items():
-                    summary = cat_data.get('summary', '')
-                    if summary:
-                        phase1_summaries.append(f"**{cat_name}**: {summary[:200]}...")
+                # Use Phase2AnalysisService for all other Phase 2 categories
+                from .phase2_analysis_service import Phase2AnalysisService
 
-                combined_phase1 = "\n\n".join(phase1_summaries)
+                analysis_service = Phase2AnalysisService()
+
+                # Get scoring results from Parameter-Based Scoring Matrix if available
+                # (needed for Weighted Scoring Assessment and other categories)
+                scoring_results = None
+                try:
+                    from ..utils.db_connection import get_db_connection
+                    conn = await get_db_connection()
+
+                    try:
+                        # Check if Parameter-Based Scoring Matrix has been processed
+                        scoring_category = await conn.fetchrow(
+                            """
+                            SELECT summary, confidence_score
+                            FROM category_results cr
+                            JOIN pharmaceutical_categories pc ON cr.category_name = pc.name
+                            WHERE cr.request_id = $1::uuid
+                            AND cr.category_name = 'Parameter-Based Scoring Matrix'
+                            AND cr.status = 'completed'
+                            """,
+                            request_id
+                        )
+
+                        if scoring_category:
+                            # Fetch scoring results from phase2_results table
+                            phase2_rows = await conn.fetch(
+                                """
+                                SELECT parameter_name, extracted_value, score, weighted_score, rationale
+                                FROM phase2_results
+                                WHERE request_id = $1::uuid
+                                ORDER BY parameter_name
+                                """,
+                                request_id
+                            )
+
+                            if phase2_rows:
+                                # Build scoring_results structure
+                                extracted_parameters = {}
+                                scores = {}
+                                weighted_scores = {}
+                                rationales = {}
+                                total_score = 0.0
+
+                                for row in phase2_rows:
+                                    param_name = row['parameter_name']
+                                    extracted_parameters[param_name] = float(row['extracted_value']) if row['extracted_value'] else None
+                                    scores[param_name] = int(row['score']) if row['score'] else None
+                                    weighted_scores[param_name] = float(row['weighted_score']) if row['weighted_score'] else 0.0
+                                    rationales[param_name] = row['rationale'] or ""
+                                    total_score += float(row['weighted_score']) if row['weighted_score'] else 0.0
+
+                                scoring_results = {
+                                    'extracted_parameters': extracted_parameters,
+                                    'scores': scores,
+                                    'weighted_scores': weighted_scores,
+                                    'rationales': rationales,
+                                    'total_score': total_score,
+                                    'delivery_method': 'Transdermal'  # TODO: Get from request metadata
+                                }
+
+                                logger.info(f"[PHASE2] Retrieved scoring results for {category_name}: total_score={total_score}")
+                    finally:
+                        await conn.close()
+
+                except Exception as e:
+                    logger.warning(f"[PHASE2] Could not fetch scoring results: {str(e)}")
+
+                analysis_result = await analysis_service.process_analysis_category(
+                    category_name=category_name,
+                    drug_name=drug_name,
+                    request_id=request_id,
+                    phase1_data=phase1_data,
+                    scoring_results=scoring_results
+                )
 
                 result = {
                     "data": {
-                        "summary": f"Phase 2 Analysis for {category_name}:\n\nBased on Phase 1 data from {len(phase1_data)} categories:\n{combined_phase1}\n\n[Phase 2 decision intelligence analysis]",
+                        "summary": analysis_result['summary'],
+                        "structured_data": analysis_result.get('structured_data', {}),
                         "phase1_categories_used": list(phase1_data.keys()),
                         "analysis_type": category_name
                     },
-                    "confidence_score": 0.75,
-                    "llm_provider": "openai",
-                    "llm_model": "gpt-4",
-                    "processing_time": int((time.time() - stage_start) * 1000)
+                    "confidence_score": analysis_result.get('confidence_score', 0.80),
+                    "llm_provider": "llm_service",
+                    "llm_model": "configured_model",
+                    "processing_time": analysis_result.get('metadata', {}).get('generation_time_ms', 0)
                 }
 
             # Store Phase 2 result in category_results table
@@ -1166,15 +1221,15 @@ Note: Advanced LLM summarization disabled. Enable 'llm_summary' stage for intell
 
     def _get_phase2_order(self, category_name: str) -> int:
         """Get the display order offset for Phase 2 categories"""
-        # Phase 2 categories are orders 11-17
+        # Phase 2 categories are orders 11-17 (matching database exactly)
         phase2_categories = {
             "Parameter-Based Scoring Matrix": 1,
             "Weighted Scoring Assessment": 2,
-            "Go/No-Go Verdict": 3,
-            "Executive Summary": 4,
-            "Risk Assessment": 5,
-            "Strategic Recommendations": 6,
-            "Investment Analysis": 7
+            "Risk Assessment Analysis": 3,
+            "Go/No-Go Recommendation": 4,
+            "Strategic Opportunities Analysis": 5,
+            "Competitive Positioning Strategy": 6,
+            "Executive Summary & Recommendations": 7
         }
         return phase2_categories.get(category_name, 0)
 

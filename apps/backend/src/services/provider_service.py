@@ -561,9 +561,50 @@ class ProviderService:
         Returns:
             tuple: (response_text, request_payload)
         """
-        # Implement Gemini API call with custom prompt
-        # Placeholder implementation - return empty request_payload
-        return f"Gemini not fully implemented for prompt: {prompt[:100]}...", {}
+        try:
+            import google.generativeai as genai
+
+            # Configure Gemini API
+            genai.configure(api_key=config['api_key'])
+
+            # Get model name
+            model_name = config.get("model", "gemini-pro")
+            model = genai.GenerativeModel(model_name)
+
+            # Combine system prompt with user prompt
+            combined_prompt = f"{self.SYSTEM_PROMPT}\n\n{prompt}"
+
+            # Generation config
+            generation_config = genai.types.GenerationConfig(
+                temperature=temperature,
+                max_output_tokens=4000
+            )
+
+            # Store payload for logging
+            request_payload = {
+                "model": model_name,
+                "prompt": prompt[:500] + "..." if len(prompt) > 500 else prompt,
+                "temperature": temperature,
+                "max_output_tokens": 4000
+            }
+
+            # Generate content asynchronously
+            response = await model.generate_content_async(
+                combined_prompt,
+                generation_config=generation_config
+            )
+
+            # Extract text from response
+            response_text = response.text
+
+            return response_text, request_payload
+
+        except ImportError:
+            return "google-generativeai package not installed. Install with: pip install google-generativeai", {}
+        except Exception as e:
+            import traceback
+            error_details = traceback.format_exc()
+            return f"Gemini exception: {str(e)} - {error_details[:500]}", {}
 
     async def _call_perplexity_with_prompt(self, prompt: str, config: Dict, temperature: float) -> tuple:
         """

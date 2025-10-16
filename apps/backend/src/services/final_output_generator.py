@@ -174,23 +174,32 @@ class FinalOutputGenerator:
 
     async def _gather_phase1_categories(self, request_id: str) -> Dict[str, Dict[str, Any]]:
         """
-        Gather all Phase 1 category data from merged_data_results.
+        Gather all Phase 1 category data from merged_data_results and category_results.
 
-        Returns dict keyed by category name with structured_data + summary.
+        Returns dict keyed by category name with structured_data + LLM summary.
         """
+        print("\n" + "="*100)
+        print("METHOD CALLED: _gather_phase1_categories")
+        print(f"Request ID: {request_id}")
+        print("="*100 + "\n")
+
         logger.info(f"[FINAL_OUTPUT] Gathering Phase 1 categories for {request_id}")
 
         async with DatabaseConnection() as conn:
+            # Join merged_data_results with category_results to get LLM summary
             results = await conn.fetch("""
                 SELECT
-                    category_name,
-                    merged_content,
-                    structured_data,
-                    merge_confidence_score,
-                    data_quality_score
-                FROM merged_data_results
-                WHERE request_id = $1
-                ORDER BY created_at
+                    mdr.category_name,
+                    mdr.merged_content,
+                    mdr.structured_data,
+                    mdr.merge_confidence_score,
+                    mdr.data_quality_score,
+                    cr.summary as llm_summary
+                FROM merged_data_results mdr
+                LEFT JOIN category_results cr ON cr.request_id = mdr.request_id
+                    AND cr.category_name = mdr.category_name
+                WHERE mdr.request_id = $1
+                ORDER BY mdr.created_at
             """, request_id)
 
             categories = {}
@@ -207,10 +216,39 @@ class FinalOutputGenerator:
                 elif structured_data is None:
                     structured_data = {}
 
-                # Build category dict with summary + structured fields
+                # Use LLM summary only, do not fall back to merged_content
+                # DEBUG: Check what keys are in the row
+                print(f"\n{'='*80}")
+                print(f"DEBUG - Category: {category_name}")
+                print(f"  Row keys: {list(row.keys())}")
+
+                llm_summary_value = row.get('llm_summary')
+                merged_content_value = row.get('merged_content')
+
+                print(f"  llm_summary: {'YES' if llm_summary_value else 'NO'} ({len(llm_summary_value) if llm_summary_value else 0} chars)")
+                print(f"  merged_content: {'YES' if merged_content_value else 'NO'} ({len(merged_content_value) if merged_content_value else 0} chars)")
+
+                # Use LLM summary instead of merged_content
+                if llm_summary_value:
+                    summary_text = llm_summary_value
+                    print(f"  USING: LLM Summary ({len(summary_text)} chars)")
+                else:
+                    summary_text = ""  # Empty string if no LLM summary available
+                    print(f"  WARNING: No LLM summary available for {category_name}")
+
+                # Double-check we're NOT using merged_content
+                if llm_summary_value and llm_summary_value == merged_content_value:
+                    print(f"  WARNING: LLM summary matches merged_content!")
+
+                print(f"{'='*80}\n")
+
+                logger.info(f"[FINAL_OUTPUT] Category: {category_name}, LLM Summary: {bool(llm_summary_value)}, Len: {len(summary_text)}")
+
+                # Build category dict with LLM summary + structured fields
+                # Put summary AFTER spreading structured_data won't overwrite
                 category_dict = {
-                    "summary": row['merged_content'] or "",
-                    **structured_data  # Spread the structured data
+                    **structured_data,  # Spread the structured data FIRST
+                    "summary": summary_text  # Then set summary - this overwrites any 'summary' in structured_data
                 }
 
                 categories[category_name] = category_dict
