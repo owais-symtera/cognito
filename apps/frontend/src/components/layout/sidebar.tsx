@@ -172,7 +172,7 @@ export function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
   const filteredNavigation = navigation.filter((item) => {
     // Check role-based access
     if (item.roles && currentUser) {
-      return item.roles.includes(currentUser.role)
+      return item.roles.includes(currentUser.role as any)
     }
     return true
   })

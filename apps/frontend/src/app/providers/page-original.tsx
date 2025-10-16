@@ -52,6 +52,7 @@ interface ProviderConfig {
   temperature?: number  // Old format support
   model?: string
   has_api_key?: boolean
+  api_key?: string
   features?: string[]
   lastUpdated?: string
 }
@@ -326,12 +327,12 @@ export default function ProvidersPage() {
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
                       <span className="text-3xl">
-                        {PROVIDER_LOGOS[provider.id] || '🔌'}
+                        {PROVIDER_LOGOS[provider.id as keyof typeof PROVIDER_LOGOS] || '🔌'}
                       </span>
                       <div className="flex-1">
                         <CardTitle className="text-lg">{provider.name}</CardTitle>
                         <CardDescription className="text-xs mt-1">
-                          {PROVIDER_DESCRIPTIONS[provider.id]}
+                          {PROVIDER_DESCRIPTIONS[provider.id as keyof typeof PROVIDER_DESCRIPTIONS]}
                         </CardDescription>
                       </div>
                     </div>
@@ -482,7 +483,7 @@ export default function ProvidersPage() {
                   const temps = provider.temperatures || []
                   return (
                     <div key={provider.id} className="flex items-start gap-3">
-                      <span className="text-lg mt-1">{PROVIDER_LOGOS[provider.id]}</span>
+                      <span className="text-lg mt-1">{PROVIDER_LOGOS[provider.id as keyof typeof PROVIDER_LOGOS]}</span>
                       <div className="flex-1">
                         <div className="font-medium text-sm">{provider.name}</div>
                         <div className="flex flex-wrap gap-1 mt-1">

@@ -139,12 +139,7 @@ export default function ProcessingStatusPage() {
   } = useQuery<SystemMetrics>({
     queryKey: ['system-metrics'],
     queryFn: async () => {
-      try {
-        return await api.get('/api/v1/processing/metrics')
-      } catch (error) {
-        console.error('Failed to fetch system metrics:', error)
-        return null
-      }
+      return await api.get('/api/v1/processing/metrics')
     },
     refetchInterval: autoRefresh ? refreshInterval : false,
   })

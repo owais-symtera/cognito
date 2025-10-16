@@ -61,7 +61,7 @@ export default function NewDrugRequestPage() {
 
   const createRequestMutation = useMutation({
     mutationFn: (data: any) => api.createRequest(data),
-    onSuccess: (response) => {
+    onSuccess: (response: any) => {
       // The response contains requestId field
       router.push(`/requests/${response.requestId}`)
     },

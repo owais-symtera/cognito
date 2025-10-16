@@ -47,12 +47,20 @@ interface PipelineStage {
   progress_weight: number
 }
 
+interface Phase2Category {
+  id: string
+  name: string
+  order: number
+  enabled: boolean
+}
+
 interface PipelineSummary {
   total_stages: number
   enabled_stages: number
   disabled_stages: number
   stages: PipelineStage[]
   progress_map: Record<string, number>
+  phase2_categories?: Phase2Category[]
 }
 
 const stageIcons: Record<string, any> = {
@@ -831,7 +839,7 @@ function CategoryPipelineData({
   // Calculate API call statistics for this category
   const totalCost = apiCalls.reduce((sum, call) => sum + call.total_cost, 0)
   const totalTokens = apiCalls.reduce((sum, call) => sum + call.token_count, 0)
-  const providers = [...new Set(apiCalls.map(call => call.provider))]
+  const providers = Array.from(new Set(apiCalls.map(call => call.provider)))
 
   return (
     <div className="space-y-6">

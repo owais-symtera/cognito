@@ -156,7 +156,7 @@ export function RecentActivity({ activities, isLoading }: RecentActivityProps) {
                   </p>
                   <div className="flex items-center mt-1 text-xs text-muted-foreground">
                     <span>
-                      {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
+                      {formatDistanceToNow(activity.timestamp)}
                     </span>
                     {activity.user && activity.user.name !== 'System' && (
                       <>

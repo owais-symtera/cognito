@@ -198,7 +198,7 @@ export default function DrugRequestsPage() {
       }
 
       // Analysis type filter
-      if (filters.analysisType.length > 0 && !filters.analysisType.includes(request.analysisType)) {
+      if (filters.analysisType.length > 0 && !filters.analysisType.includes(request.analysisType || '')) {
         return false
       }
 
